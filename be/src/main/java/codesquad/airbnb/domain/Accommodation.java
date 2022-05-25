@@ -1,5 +1,7 @@
 package codesquad.airbnb.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -24,6 +27,9 @@ public class Accommodation {
     @OneToOne(mappedBy = "accommodation", fetch = FetchType.LAZY)
     private Reservation reservation;
 
+    @OneToMany(mappedBy = "accommodation")
+    private List<Schedule> schedules = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "facility_id")
     private Facility facility;
@@ -33,6 +39,7 @@ public class Accommodation {
     private String imagePath;
 
     private int pricePerDay;
+
     @Column(name = "position_x")
     private int positionX;
     @Column(name = "position_y")
