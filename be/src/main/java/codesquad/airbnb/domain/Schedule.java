@@ -1,5 +1,6 @@
 package codesquad.airbnb.domain;
 
+import com.sun.istack.NotNull;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +23,9 @@ public class Schedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
+    @NotNull
     private Accommodation accommodation;
 
     private LocalDate stayDate;
-    private int vacantRoomQuantity;
+    private Integer vacantRoomQuantity;
 }

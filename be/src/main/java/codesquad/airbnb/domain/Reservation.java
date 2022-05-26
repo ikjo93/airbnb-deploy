@@ -1,8 +1,8 @@
 package codesquad.airbnb.domain;
 
+import com.sun.istack.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +32,15 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @NotNull
     private Member member;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "accommodation_id")
+    @NotNull
     private Accommodation accommodation;
 
-    private int reservationPrice;
+    private Integer reservationPrice;
 
     @Column(name = "checkin_date")
     private LocalDate checkInDate;
@@ -50,7 +52,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
-    private Reservation(Member member, Accommodation accommodation, int reservationPrice, LocalDate checkInDate,
+    private Reservation(Member member, Accommodation accommodation, Integer reservationPrice, LocalDate checkInDate,
         LocalDate checkOutDate, LocalDateTime reservationDateTime,
         ReservationStatus status) {
         this.member = member;
@@ -62,7 +64,7 @@ public class Reservation {
         this.status = status;
     }
 
-    public static Reservation createReservation(Member member, Accommodation accommodation, int reservationPrice,
+    public static Reservation createReservation(Member member, Accommodation accommodation, Integer reservationPrice,
         LocalDate checkInDate, LocalDate checkOutDate) {
         Reservation reservation = new Reservation(member, accommodation, reservationPrice, checkInDate,
             checkOutDate, LocalDateTime.now(), ReservationStatus.ORDER);

@@ -16,12 +16,12 @@ import lombok.Getter;
 public class Facility {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "facility_id")
+    @Column(name = "accommodation_facility_id")
     private Long id;
 
     @OneToOne(mappedBy = "facility", fetch = FetchType.LAZY)
     private Accommodation accommodation;
 
-    private int maximumCapacity;
-    private String option;
+    private Integer maximumCapacity;
+    private String options;
 }

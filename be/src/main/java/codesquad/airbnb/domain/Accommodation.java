@@ -1,5 +1,6 @@
 package codesquad.airbnb.domain;
 
+import com.sun.istack.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -31,17 +32,17 @@ public class Accommodation {
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "facility_id")
+    @JoinColumn(name = "accommodation_facility_id")
+    @NotNull
     private Facility facility;
 
     private String locationName;
     private String description;
     private String imagePath;
-
-    private int pricePerDay;
+    private Integer pricePerDay;
 
     @Column(name = "position_x")
-    private int positionX;
+    private Integer positionX;
     @Column(name = "position_y")
-    private int positionY;
+    private Integer positionY;
 }
