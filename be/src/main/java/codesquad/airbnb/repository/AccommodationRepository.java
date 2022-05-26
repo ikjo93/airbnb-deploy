@@ -14,7 +14,7 @@ public class AccommodationRepository {
     private final EntityManager em;
 
     public List<Accommodation> findAllByStayDate(LocalDate checkIndDate, LocalDate checkOutDate) {
-        String query = "select a from Accommodation a join a.schedules s where s.stayDate between :checkInDate and :checkOutDate group by a.id";
+        String query = "select a from Accommodation a join a.schedules s where s.stayDate between :checkInDate and :checkOutDate and s.vacantRoomQuantity > 0 group by a.id";
 
         return em.createQuery(query, Accommodation.class)
             .setParameter("checkInDate", checkIndDate)
