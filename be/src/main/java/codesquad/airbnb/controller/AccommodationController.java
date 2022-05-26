@@ -19,8 +19,8 @@ public class AccommodationController {
 
     @GetMapping("/prices")
     public AccommodationPriceListDto prices(@RequestParam("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkInDate,
-                                               @RequestParam("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOutDate) {
+                                            @RequestParam("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOutDate) {
 
-        return accommodationService.getPrices(checkInDate, checkOutDate);
+        return accommodationService.getPricesByStayDate(checkInDate, checkOutDate);
     }
 }

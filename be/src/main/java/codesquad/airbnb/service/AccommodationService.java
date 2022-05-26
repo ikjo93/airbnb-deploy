@@ -21,9 +21,9 @@ public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
 
     @Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-    public AccommodationPriceListDto getPrices(LocalDate checkInDate, LocalDate checkOutDate) {
+    public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate) {
         long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
-        List<Integer> prices = accommodationRepository.findAllByStayDate(checkInDate, checkOutDate, stayDays);
+        List<Integer> prices = accommodationRepository.findPricesByStayDate(checkInDate, checkOutDate, stayDays);
         Map<Integer, Integer> map = new HashMap<>();
         for (Integer price : prices) {
             map.put(price, map.getOrDefault(price, 0) + 1);

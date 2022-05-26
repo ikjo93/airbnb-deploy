@@ -12,7 +12,7 @@ public class AccommodationRepository {
 
     private final EntityManager em;
 
-    public List<Integer> findAllByStayDate(LocalDate checkIndDate, LocalDate checkOutDate, long stayDays) {
+    public List<Integer> findPricesByStayDate(LocalDate checkIndDate, LocalDate checkOutDate, long stayDays) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select a.pricePerDay ")
             .append("from Accommodation a ")
