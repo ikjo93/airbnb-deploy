@@ -1,31 +1,31 @@
 package codesquad.airbnb.service;
 
-import codesquad.airbnb.domain.Accommodation;
 import codesquad.airbnb.dto.AccommodationPriceDto;
 import codesquad.airbnb.dto.AccommodationPriceListDto;
 import codesquad.airbnb.repository.AccommodationRepository;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class AccommodationService {
 
     private final AccommodationRepository accommodationRepository;
 
+    @Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
     public AccommodationPriceListDto getPrices(LocalDate checkInDate, LocalDate checkOutDate) {
-        List<Accommodation> accommodations = accommodationRepository.findAllByStayDate(checkInDate, checkOutDate);
+        long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
+        List<Integer> prices = accommodationRepository.findAllByStayDate(checkInDate, checkOutDate, stayDays);
         Map<Integer, Integer> map = new HashMap<>();
-
-        for (Accommodation accommodation : accommodations) {
-            Integer price = accommodation.getPricePerDay();
+        for (Integer price : prices) {
             map.put(price, map.getOrDefault(price, 0) + 1);
         }
 

@@ -26,6 +26,7 @@ public class Schedule {
     @NotNull
     private Accommodation accommodation;
 
+    @Column(unique = true)
     private LocalDate stayDate;
     private Integer vacantRoomQuantity;
 }

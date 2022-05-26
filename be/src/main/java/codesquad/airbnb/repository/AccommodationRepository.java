@@ -1,6 +1,5 @@
 package codesquad.airbnb.repository;
 
-import codesquad.airbnb.domain.Accommodation;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,12 +12,18 @@ public class AccommodationRepository {
 
     private final EntityManager em;
 
-    public List<Accommodation> findAllByStayDate(LocalDate checkIndDate, LocalDate checkOutDate) {
-        String query = "select a from Accommodation a join a.schedules s where s.stayDate between :checkInDate and :checkOutDate and s.vacantRoomQuantity > 0 group by a.id";
+    public List<Integer> findAllByStayDate(LocalDate checkIndDate, LocalDate checkOutDate, long stayDays) {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select a.pricePerDay ")
+            .append("from Accommodation a ")
+            .append("join a.schedules s ")
+            .append("where s.stayDate between :checkInDate and :checkOutDate and s.vacantRoomQuantity > 0 ")
+            .append("group by (a.id) having count(a.id) = :stayDays");
 
-        return em.createQuery(query, Accommodation.class)
+        return em.createQuery(jpql.toString(), Integer.class)
             .setParameter("checkInDate", checkIndDate)
-            .setParameter("checkOutDate", checkOutDate)
+            .setParameter("checkOutDate", checkOutDate.plusDays(1))
+            .setParameter("stayDays", stayDays)
             .getResultList();
     }
 }
