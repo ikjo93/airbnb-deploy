@@ -25,8 +25,6 @@ public class Schedule {
     @JoinColumn(name = "accommodation_id")
     @NotNull
     private Accommodation accommodation;
-
-    @Column(unique = true)
     private LocalDate stayDate;
     private Integer vacantRoomQuantity;
 }

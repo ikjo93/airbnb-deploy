@@ -36,8 +36,7 @@ CREATE TABLE schedule (
     stay_date TIMESTAMP,
     vacant_room_quantity INT,
     PRIMARY KEY (schedule_id),
-    FOREIGN KEY (accommodation_id) REFERENCES accommodation (accommodation_id),
-    UNIQUE KEY (stay_date)
+    FOREIGN KEY (accommodation_id) REFERENCES accommodation (accommodation_id)
 );
 
 CREATE TABLE reservation (
