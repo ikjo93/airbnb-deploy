@@ -15,7 +15,7 @@ public class AccommodationController {
 
     private final AccommodationService accommodationService;
 
-    @GetMapping("/api/accommodations/price")
+    @GetMapping("/api/accommodation/prices")
     public AccommodationPriceListDto prices(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate in,
                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out) {
 
