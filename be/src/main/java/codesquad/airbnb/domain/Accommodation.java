@@ -33,7 +33,6 @@ public class Accommodation {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "accommodation_facility_id")
-    @NotNull
     private Facility facility;
 
     private String locationName;

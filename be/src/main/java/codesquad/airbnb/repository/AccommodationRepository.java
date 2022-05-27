@@ -1,29 +1,16 @@
 package codesquad.airbnb.repository;
 
+import codesquad.airbnb.domain.Accommodation;
 import java.time.LocalDate;
 import java.util.List;
-import javax.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-@Repository
-@RequiredArgsConstructor
-public class AccommodationRepository {
+public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-    private final EntityManager em;
-
-    public List<Integer> findPricesByStayDate(LocalDate checkIndDate, LocalDate checkOutDate, long stayDays) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select a.pricePerDay ")
-            .append("from Accommodation a ")
-            .append("join a.schedules s ")
-            .append("where s.stayDate between :checkInDate and :checkOutDate and s.vacantRoomQuantity > 0 ")
-            .append("group by (a.id) having count(a.id) = :stayDays");
-
-        return em.createQuery(jpql.toString(), Integer.class)
-            .setParameter("checkInDate", checkIndDate)
-            .setParameter("checkOutDate", checkOutDate.plusDays(1))
-            .setParameter("stayDays", stayDays)
-            .getResultList();
-    }
+    @Query("select a.pricePerDay from Accommodation a join a.schedules s where s.stayDate between :checkInDate and :checkOutDate and s.vacantRoomQuantity > 0 group by (a.id) having count(a.id) = :stayDays")
+    List<Integer> findPricesByStayDate(@Param("checkInDate") LocalDate checkIndDate,
+        @Param("checkOutDate") LocalDate checkOutDate,
+        @Param("stayDays") long stayDays);
 }
