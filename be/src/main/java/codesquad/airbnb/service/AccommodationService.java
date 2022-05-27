@@ -6,9 +6,9 @@ import codesquad.airbnb.repository.AccommodationRepository;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +35,10 @@ public class AccommodationService {
     }
 
     private Map<Integer, Integer> calculateCountOfPrices(List<Integer> prices) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (Integer price : prices) {
-            map.put(price, map.getOrDefault(price, 0) + 1);
-        }
-        return map;
+        return prices.stream().collect(Collectors.toMap(
+            price -> price,
+            count -> 1,
+            (existingCount, newCount) -> existingCount + 1
+        ));
     }
 }
