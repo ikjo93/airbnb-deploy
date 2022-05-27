@@ -23,7 +23,11 @@ public class AccommodationService {
     public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate) {
         long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
         List<Integer> prices = accommodationRepository.findPricesByStayDate(checkInDate, checkOutDate.plusDays(1), stayDays);
-        Map<Integer, Integer> countOfPrices = calculateCountOfPrices(prices);
+        Map<Integer, Integer> countOfPrices = prices.stream().collect(Collectors.toMap(
+            price -> price,
+            count -> 1,
+            (existingCount, newCount) -> existingCount + 1
+        ));
 
         List<AccommodationPriceDto> accommodationPrices = new ArrayList<>();
 
@@ -32,13 +36,5 @@ public class AccommodationService {
         }
 
         return new AccommodationPriceListDto(accommodationPrices);
-    }
-
-    private Map<Integer, Integer> calculateCountOfPrices(List<Integer> prices) {
-        return prices.stream().collect(Collectors.toMap(
-            price -> price,
-            count -> 1,
-            (existingCount, newCount) -> existingCount + 1
-        ));
     }
 }
