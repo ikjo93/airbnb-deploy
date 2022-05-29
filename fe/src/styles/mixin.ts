@@ -26,7 +26,7 @@ export const mixin = {
   `,
 
   scaleButtonTransition: () => `
-    transition: opacity 200ms, transform 200ms;
+    transition: opacity 200ms, transform 200ms, background-color 200ms;
     
     &:hover {
       transform: scale(1.12);

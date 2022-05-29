@@ -22,6 +22,7 @@ export const SearchButtonLayer = styled.div`
 
 export const SearchBarLayer = styled.div`
   ${mixin.inlineFlexbox({ ai: 'center' })}
+  background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.gray4};
   border-radius: 30px;
   overflow: hidden;

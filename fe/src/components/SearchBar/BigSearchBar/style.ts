@@ -16,7 +16,6 @@ export const ButtonWrapper = styled.div`
   padding: 12px;
   border-radius: 30px;
   margin: 4px;
-  transition: background 200ms;
 
   &:hover {
     background-color: ${({ theme }) => theme.color.gray5};
@@ -69,6 +68,7 @@ export const ResetButton = styled.button`
 
 export const SearchBarLayer = styled.div`
   ${mixin.inlineFlexbox({ ai: 'center' })};
+  background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.gray4};
   min-height: 48px;
   border-radius: 30px;

@@ -27,8 +27,9 @@ const GlobalStyle = createGlobalStyle`
     outline: 0;
   }
   
-  li, ul {
+  li, ul, ol {
     list-style: none;
+    padding-left: 0;
   }
 `;
 
