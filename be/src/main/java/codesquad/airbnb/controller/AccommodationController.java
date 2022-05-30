@@ -17,8 +17,10 @@ public class AccommodationController {
 
     @GetMapping("/api/accommodation/prices")
     public AccommodationPriceListDto prices(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate in,
-                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out) {
+                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out,
+                                            @RequestParam Double latitude,
+                                            @RequestParam Double longitude) {
 
-        return accommodationService.getPricesByStayDate(in, out);
+        return accommodationService.getPricesByStayDate(in, out, latitude, longitude);
     }
 }

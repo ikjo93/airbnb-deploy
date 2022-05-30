@@ -20,9 +20,10 @@ public class AccommodationService {
 
     private final AccommodationRepository accommodationRepository;
 
-    public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate) {
+    public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate, Double latitude, Double longitude) {
         long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
-        List<Integer> prices = accommodationRepository.findPricesByStayDate(checkInDate, checkOutDate.plusDays(1), stayDays);
+        String point = String.format("POINT(%s %s)", latitude, longitude);
+        List<Integer> prices = accommodationRepository.findPricesByStayDate(checkInDate, checkOutDate.plusDays(1), stayDays, point);
         Map<Integer, Integer> countOfPrices = prices.stream().collect(Collectors.toMap(
             price -> price,
             count -> 1,

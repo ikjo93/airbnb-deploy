@@ -1,6 +1,5 @@
 package codesquad.airbnb.domain;
 
-import com.sun.istack.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -15,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Table(name = "accommodation")
@@ -40,8 +40,5 @@ public class Accommodation {
     private String imagePath;
     private Integer pricePerDay;
 
-    @Column(name = "position_x")
-    private Integer positionX;
-    @Column(name = "position_y")
-    private Integer positionY;
+    private Point location;
 }
