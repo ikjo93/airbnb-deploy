@@ -51,7 +51,7 @@
 > ``` 
 > ![image](https://user-images.githubusercontent.com/82401504/170532752-c9123e86-ede3-4307-a8f9-cc0ceebf0acb.png)
 
-## 1주차 화요일 리뷰 요청
+## 2주차 화요일 리뷰 요청
 
 ### 진행 내용
 #### 애플리케이션
@@ -59,6 +59,7 @@
   + 동일한 방법으로 React 앱 자동 배포 작업 진행 중 
 + 체크인 및 체크아웃 일자 기반 1박 가격별 숙소 개수 조회 API 기능 보완
   + 사용자 현재 위치 기준 반경 1km 내 숙소 검색 조건 추가
+  + mysql geometry 함수 사용
 + 사용자 입력 정보 기반 숙소 정보 조회 API 기능 구현(초안)
   + Repository, Service, Controller 등 코드 작성 
 + <a href="https://near-snipe-0de.notion.site/API-Description-094e9cd17eaa4c3d89e8c9966fd6d8a5">API 명세서 확인하기(클릭)</a><br/>
