@@ -25,9 +25,9 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         @Param("stayDays") long stayDays,
         @Param("point") String point);
 
-    @Query(value = "select a.description as description, a.image_path as imagePath, "
-        + "ST_ASTEXT(a.location) as location, f.maximum_capacity as maximumCapacity, "
-        + "a.name as name, f.options as options, a.price_per_day as pricePerDay "
+    @Query(value = "select a.name as name, a.description as description, a.image_path as imagePath, "
+        + "a.price_per_day as pricePerDay, f.maximum_capacity as maximumCapacity, "
+        + "f.options as options, ST_ASTEXT(a.location) as location "
         + "from accommodation a "
         + "join accommodation_facility f "
         + "on a.accommodation_facility_id = f.accommodation_facility_id "
@@ -41,11 +41,11 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         + "group by (a.accommodation_id) "
         + "having count(a.accommodation_id) = :stayDays", nativeQuery = true)
     List<AccommodationDto> findAllByCriteria(
+        @Param("point") String point,
         @Param("checkInDate") LocalDate checkInDate,
         @Param("checkOutDate") LocalDate checkOutDate,
-        @Param("stayDays") long stayDays,
-        @Param("point") String point,
-        @Param("personnel") int personnel,
         @Param("minimumMoney") int minimumMoney,
-        @Param("maximumMoney") int maximumMoney);
+        @Param("maximumMoney") int maximumMoney,
+        @Param("personnel") int personnel,
+        @Param("stayDays") long stayDays);
 }

@@ -55,6 +55,9 @@ public class AccommodationService {
         int minimumMoney = userSearchForm.getMinimum_money();
         int maximumMoney = userSearchForm.getMaximum_money();
 
-        return new AccommodationListDto(accommodationRepository.findAllByCriteria(checkInDate, checkOutDate, stayDays, point, personnel, minimumMoney, maximumMoney));
+        List<AccommodationDto> accommodation = accommodationRepository.findAllByCriteria(
+            point, checkInDate, checkOutDate.plusDays(1), minimumMoney, maximumMoney, personnel, stayDays);
+
+        return new AccommodationListDto(accommodation);
     }
 }

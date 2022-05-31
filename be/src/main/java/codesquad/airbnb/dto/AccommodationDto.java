@@ -1,11 +1,12 @@
 package codesquad.airbnb.dto;
 
 public interface AccommodationDto {
+
+    String getName();
     String getDescription();
     String getImagePath();
-    String getLocation();
-    Integer getMaximumCapacity();
-    String getName();
-    String getOptions();
     Integer getPricePerDay();
+    Integer getMaximumCapacity();
+    String getOptions();
+    String getLocation();
 }
