@@ -1,6 +1,6 @@
 INSERT INTO accommodation_facility (maximum_capacity, options) VALUES (3, "침실 1개, 침대 2개, 욕실 1개");
 
-INSERT INTO accommodation (accommodation_facility_id, location_name, description, price_per_day, image_path, location)
+INSERT INTO accommodation (accommodation_facility_id, name, description, price_per_day, image_path, location)
 VALUES (1, "로데오", "좋아요!", 20000, "img/1_ma.png", ST_GeomFromText('POINT(126.7518 37.4902)')),
        (1, "마루", "좋아요!", 25000, "img/2_ma.png", ST_GeomFromText('POINT(126.7518 37.4902)')),
        (1, "요기", "좋아요!", 30000, "img/3_ma.png", ST_GeomFromText('POINT(126.756 37.4895)')),
