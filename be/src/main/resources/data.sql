@@ -1,14 +1,14 @@
 INSERT INTO accommodation_facility (maximum_capacity, options) VALUES (3, "침실 1개, 침대 2개, 욕실 1개");
 
-INSERT INTO accommodation (accommodation_facility_id, location_name, description, price_per_day, image_path, position_x, position_y)
-VALUES (1, "강북구 호텔", "좋아요!", 20000, "img/1_ma.png", 10, 10),
-       (1, "노원구 호텔", "좋아요!", 25000, "img/2_ma.png", 20, 20),
-       (1, "강남구 호텔", "좋아요!", 30000, "img/3_ma.png", 30, 30),
-       (1, "강서구 호텔", "좋아요!", 20000, "img/4_ma.png", 40, 40),
-       (1, "강동구 호텔", "좋아요!", 20000, "img/5_ma.png", 50, 50),
-       (1, "양천구 호텔", "좋아요!", 20000, "img/6_ma.png", 10, 10),
-       (1, "구로구 호텔", "좋아요!", 20000, "img/7_ma.png", 10, 10),
-       (1, "영등포구 호텔", "좋아요!", 20000, "img/8_ma.png", 10, 10);
+INSERT INTO accommodation (accommodation_facility_id, name, description, price_per_day, image_path, location)
+VALUES (1, "로데오", "좋아요!", 20000, "img/1_ma.png", ST_GeomFromText('POINT(126.7518 37.4902)')),
+       (1, "마루", "좋아요!", 25000, "img/2_ma.png", ST_GeomFromText('POINT(126.7518 37.4902)')),
+       (1, "요기", "좋아요!", 30000, "img/3_ma.png", ST_GeomFromText('POINT(126.756 37.4895)')),
+       (1, "A+", "좋아요!", 20000, "img/4_ma.png", ST_GeomFromText('POINT(126.7562 37.4903)')),
+       (1, "알프스", "좋아요!", 20000, "img/5_ma.png", ST_GeomFromText('POINT(126.7522 37.491)')),
+       (1, "MOMO", "좋아요!", 20000, "img/6_ma.png", ST_GeomFromText('POINT(126.7556 37.4904)')),
+       (1, "자생", "좋아요!", 20000, "img/7_ma.png", ST_GeomFromText('POINT(126.7515 37.4894)')),
+       (1, "써브웨이", "좋아요!", 20000, "img/8_ma.png", ST_GeomFromText('POINT(126.7569 37.4902)'));
 
 INSERT INTO schedule (accommodation_id, stay_date, vacant_room_quantity)
 VALUES (1, NOW(), 3),

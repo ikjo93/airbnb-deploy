@@ -20,12 +20,11 @@ CREATE TABLE accommodation_facility (
 CREATE TABLE accommodation (
     accommodation_id INT NOT NULL AUTO_INCREMENT,
     accommodation_facility_id INT NOT NULL,
-    location_name VARCHAR(64),
+    name VARCHAR(64),
     description VARCHAR(255),
     image_path VARCHAR(64),
     price_per_day INT,
-    position_x INT,
-    position_y INT,
+    location POINT,
     PRIMARY KEY (accommodation_id),
     FOREIGN KEY (accommodation_facility_id) REFERENCES accommodation_facility (accommodation_facility_id)
 );

@@ -1,6 +1,8 @@
 package codesquad.airbnb.controller;
 
+import codesquad.airbnb.dto.AccommodationListDto;
 import codesquad.airbnb.dto.AccommodationPriceListDto;
+import codesquad.airbnb.dto.UserSearchForm;
 import codesquad.airbnb.service.AccommodationService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +17,17 @@ public class AccommodationController {
 
     private final AccommodationService accommodationService;
 
-    @GetMapping("/api/accommodations/price")
+    @GetMapping("/api/accommodation/prices")
     public AccommodationPriceListDto prices(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate in,
-                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out) {
+                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out,
+                                            @RequestParam double latitude,
+                                            @RequestParam double longitude) {
 
-        return accommodationService.getPricesByStayDate(in, out);
+        return accommodationService.getPricesByStayDate(in, out, latitude, longitude);
+    }
+
+    @GetMapping("/api/accommodations")
+    public AccommodationListDto accommodations(UserSearchForm userSearchForm) {
+        return accommodationService.getAccommodationInfoByCriteria(userSearchForm);
     }
 }
