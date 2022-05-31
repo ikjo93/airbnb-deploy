@@ -35,7 +35,7 @@ public class Accommodation {
     @JoinColumn(name = "accommodation_facility_id")
     private Facility facility;
 
-    private String locationName;
+    private String name;
     private String description;
     private String imagePath;
     private Integer pricePerDay;
