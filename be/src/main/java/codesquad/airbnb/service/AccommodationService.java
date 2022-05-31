@@ -4,7 +4,6 @@ import codesquad.airbnb.dto.AccommodationDto;
 import codesquad.airbnb.dto.AccommodationListDto;
 import codesquad.airbnb.dto.AccommodationPriceDto;
 import codesquad.airbnb.dto.AccommodationPriceListDto;
-import codesquad.airbnb.dto.UserSearchForm;
 import codesquad.airbnb.repository.AccommodationRepository;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -44,16 +43,9 @@ public class AccommodationService {
         return new AccommodationPriceListDto(accommodationPrices);
     }
 
-    public AccommodationListDto getAccommodationInfoByCriteria(UserSearchForm userSearchForm) {
-        LocalDate checkInDate = userSearchForm.getIn();
-        LocalDate checkOutDate = userSearchForm.getOut();
+    public AccommodationListDto getAccommodationInfoByCriteria(LocalDate checkInDate, LocalDate checkOutDate, int minimumMoney, int maximumMoney, int personnel, double latitude, double longitude) {
         long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
-
-        String point = String.format("POINT(%s %s)", userSearchForm.getLatitude(), userSearchForm.getLongitude());
-
-        int personnel = userSearchForm.getPersonnel();
-        int minimumMoney = userSearchForm.getMinimum_money();
-        int maximumMoney = userSearchForm.getMaximum_money();
+        String point = String.format("POINT(%s %s)", latitude, longitude);
 
         List<AccommodationDto> accommodation = accommodationRepository.findAllByCriteria(
             point, checkInDate, checkOutDate.plusDays(1), minimumMoney, maximumMoney, personnel, stayDays);

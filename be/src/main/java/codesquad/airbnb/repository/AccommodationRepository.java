@@ -10,11 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
+    String SEARCH_RADIUS = "1000";
+
     @Query(value = "select a.price_per_day "
         + "from accommodation a "
         + "join schedule s "
         + "on a.accommodation_id = s.accommodation_id "
-        + "where ST_Distance_Sphere(a.location, ST_GeomFromText(:point)) <= 1000 "
+        + "where ST_Distance_Sphere(a.location, ST_GeomFromText(:point)) <= " + SEARCH_RADIUS + " "
         + "and s.stay_date between :checkInDate and :checkOutDate "
         + "and s.vacant_room_quantity > 0 "
         + "group by (a.accommodation_id) "
@@ -33,7 +35,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         + "on a.accommodation_facility_id = f.accommodation_facility_id "
         + "join schedule s "
         + "on a.accommodation_id = s.accommodation_id "
-        + "where ST_Distance_Sphere(a.location, ST_GeomFromText(:point)) <= 1000 "
+        + "where ST_Distance_Sphere(a.location, ST_GeomFromText(:point)) <= " + SEARCH_RADIUS + " "
         + "and s.stay_date between :checkInDate and :checkOutDate "
         + "and s.vacant_room_quantity > 0 "
         + "and a.price_per_day between :minimumMoney and :maximumMoney "
