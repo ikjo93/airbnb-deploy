@@ -11,7 +11,7 @@ function SearchButton({ children }: Props) {
   return (
     <Button>
       <I.Search />
-      {children && <span>{children}</span>}
+      {!!children && <span>{children}</span>}
     </Button>
   );
 }

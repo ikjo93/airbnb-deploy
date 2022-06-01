@@ -9,7 +9,7 @@ export const Separator = styled.span`
   background-color: ${({ theme }) => theme.color.gray5};
 `;
 
-export const Button = styled.button.attrs({ type: 'button' })`
+export const Button = styled.button.attrs({ type: 'button' })<{ width: number }>`
   cursor: pointer;
   padding: 16px 16px;
   background-color: transparent;

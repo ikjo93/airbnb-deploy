@@ -1,52 +1,29 @@
 import React from 'react';
 
 import { SearchButton } from '@/components/buttons/SearchButton';
-import * as I from '@/styles/icons';
 
+import DateButton from './DateButton';
+import GuestsButton from './GuestsButton';
+import PriceButton from './PriceButton';
 import * as S from './style';
 
+// checkin: {desc: ""} checkout: {desc: ""}
+// price: {desc: ["", ""]}
+// guests: {desc: ["", ""]}
 function BigSearchBar() {
   return (
     <S.SearchBarLayer>
-      <S.ButtonWrapper>
-        <S.Button>
-          <S.Header>체크인</S.Header>
-          <S.Description>5월 20일</S.Description>
-        </S.Button>
-        <S.Button>
-          <S.Header>체크아웃</S.Header>
-          <S.Description>5월 30일</S.Description>
-        </S.Button>
-        <S.ResetButton>
-          <I.Reset />
-        </S.ResetButton>
-      </S.ButtonWrapper>
-
+      <DateButton
+        checkIn={{ year: 2022, month: 10, day: 10 }}
+        checkOut={{ year: 2022, month: 10, day: 10 }}
+      />
       <S.Separator />
-
-      <S.ButtonWrapper>
-        <S.Button>
-          <S.Header>요금</S.Header>
-          <S.Description>$100,000 ~ $1,000,000</S.Description>
-        </S.Button>
-        <S.ResetButton>
-          <I.Reset />
-        </S.ResetButton>
-      </S.ButtonWrapper>
-
+      <PriceButton minPrice={100} maxPrice={100} />
       <S.Separator />
+      <GuestsButton child={1} />
 
-      <S.ButtonWrapper>
-        <S.Button>
-          <S.Header>인원</S.Header>
-          <S.Description>게스트 2명</S.Description>
-        </S.Button>
-        <S.ResetButton>
-          <I.Reset />
-        </S.ResetButton>
-      </S.ButtonWrapper>
-
-      <S.SearchButtonLayer>
+      {/*TODO: 위 세가지 필드중 하나라도 채워져야 검색 버튼 활성화*/}
+      <S.SearchButtonLayer disabled={false}>
         <SearchButton>검색</SearchButton>
       </S.SearchButtonLayer>
     </S.SearchBarLayer>

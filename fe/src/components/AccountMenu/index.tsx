@@ -5,10 +5,10 @@ import * as I from '@/styles/icons';
 import * as S from './style';
 
 interface Props {
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
 }
 
-function AccountMenu({ isLoggedIn }: Props) {
+function AccountMenu({ isLoggedIn = false }: Props) {
   return (
     <S.AccountMenuLayer>
       <S.MenuLayer>

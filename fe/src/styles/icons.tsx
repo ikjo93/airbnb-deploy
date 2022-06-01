@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
+import { mixin } from '@/styles/mixin';
+
 const Common = styled.i`
   font-size: inherit;
 `;
 
 export const Logo = styled.i.attrs({ className: 'ic-logo' })`
   font-size: 32px;
+  cursor: pointer;
+
+  ${mixin.defaultButtonTransition()};
 `;
 
 export const Menu = styled(Common).attrs({ className: 'ic-menu' })``;
