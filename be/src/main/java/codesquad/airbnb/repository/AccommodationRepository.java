@@ -27,9 +27,9 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         @Param("stayDays") long stayDays,
         @Param("point") String point);
 
-    @Query(value = "select a.name as name, a.description as description, a.image_path as imagePath, "
+    @Query(value = "select a.accommodation_id as id, a.name as name, a.description as description, a.image_path as imagePath, "
         + "a.price_per_day as pricePerDay, f.maximum_capacity as maximumCapacity, "
-        + "f.options as options, ST_ASTEXT(a.location) as location "
+        + "f.options as options, ST_X(a.location) as latitude, ST_Y(a.location) as longitude "
         + "from accommodation a "
         + "join accommodation_facility f "
         + "on a.accommodation_facility_id = f.accommodation_facility_id "
