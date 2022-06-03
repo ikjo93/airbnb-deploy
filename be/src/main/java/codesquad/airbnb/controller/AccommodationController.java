@@ -19,8 +19,8 @@ public class AccommodationController {
     @GetMapping("/api/accommodation/prices")
     public AccommodationPriceListDto prices(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate in,
                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out,
-                                            @RequestParam double latitude,
-                                            @RequestParam double longitude) {
+                                            @RequestParam Double latitude,
+                                            @RequestParam Double longitude) {
 
         return accommodationService.getPricesByStayDate(in, out, latitude, longitude);
     }
@@ -28,11 +28,11 @@ public class AccommodationController {
     @GetMapping("/api/accommodations")
     public AccommodationListDto accommodations(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate in,
                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate out,
-                                               @RequestParam int minimum_money,
-                                               @RequestParam int maximum_money,
-                                               @RequestParam int personnel,
-                                               @RequestParam double latitude,
-                                               @RequestParam double longitude) {
+                                               @RequestParam Integer minimum_money,
+                                               @RequestParam Integer maximum_money,
+                                               @RequestParam Integer personnel,
+                                               @RequestParam Double latitude,
+                                               @RequestParam Double longitude) {
 
         return accommodationService.getAccommodationInfoByCriteria(in, out, minimum_money, maximum_money, personnel, latitude, longitude);
     }

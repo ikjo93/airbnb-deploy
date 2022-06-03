@@ -24,7 +24,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     List<Integer> findPricesByStayDate(
         @Param("checkInDate") LocalDate checkIndDate,
         @Param("checkOutDate") LocalDate checkOutDate,
-        @Param("stayDays") long stayDays,
+        @Param("stayDays") Long stayDays,
         @Param("point") String point);
 
     @Query(value = "select a.accommodation_id as id, a.name as name, a.description as description, a.image_path as imagePath, "
@@ -46,8 +46,8 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         @Param("point") String point,
         @Param("checkInDate") LocalDate checkInDate,
         @Param("checkOutDate") LocalDate checkOutDate,
-        @Param("minimumMoney") int minimumMoney,
-        @Param("maximumMoney") int maximumMoney,
-        @Param("personnel") int personnel,
-        @Param("stayDays") long stayDays);
+        @Param("minimumMoney") Integer minimumMoney,
+        @Param("maximumMoney") Integer maximumMoney,
+        @Param("personnel") Integer personnel,
+        @Param("stayDays") Long stayDays);
 }
