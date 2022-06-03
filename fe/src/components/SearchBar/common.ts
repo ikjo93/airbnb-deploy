@@ -7,8 +7,9 @@ export interface IDateUnit {
 }
 
 export interface IDateButton {
-  checkIn?: IDateUnit;
-  checkOut?: IDateUnit;
+  checkIn?: IDateUnit | null;
+  checkOut?: IDateUnit | null;
+  reset: () => void;
 }
 
 export const dateUnitToString = (unit?: IDateUnit): string => {

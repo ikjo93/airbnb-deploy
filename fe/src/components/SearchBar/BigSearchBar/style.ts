@@ -99,3 +99,7 @@ export const SearchBarLayer = styled.div`
     color: inherit;
   }
 `;
+
+export const SearchBarLayout = styled.div``;
+
+export const PopupLayer = styled.div``;
