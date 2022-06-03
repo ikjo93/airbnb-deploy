@@ -26,7 +26,15 @@ public class OAuthService {
 
     private final MemberRepository memberRepository;
 
-    public OAuthAccessToken getAccessTokenFromAuthServer(String code) {
+    public String authorizeForThirdParty(String code) {
+        OAuthAccessToken OAuthAccessToken = getAccessTokenFromAuthServer(code);
+        String email = getUserEmailFromResourceServer(OAuthAccessToken);
+        saveUserEmail(email);
+
+        return email;
+    }
+
+    private OAuthAccessToken getAccessTokenFromAuthServer(String code) {
         MultiValueMap<String, String> requestHeader = getRequestHeader();
         MultiValueMap<String, String> requestPayload = getRequestPayload(code);
         HttpEntity<?> request = new HttpEntity<>(requestPayload, requestHeader);
@@ -51,7 +59,7 @@ public class OAuthService {
         return requestHeader;
     }
 
-    public String getUserEmailFromResourceServer(OAuthAccessToken OAuthAccessToken) {
+    private String getUserEmailFromResourceServer(OAuthAccessToken OAuthAccessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", GITHUB_EMAIL_API_ACCEPT_HEADER);
         httpHeaders.set("Authorization", OAuthAccessToken.getAuthorizationValue());
@@ -69,7 +77,7 @@ public class OAuthService {
         return (String) ((LinkedHashMap) userEmails[0]).get("email");
     }
 
-    public void saveUserEmail(String email) {
+    private void saveUserEmail(String email) {
         Long userId = memberRepository.findByEmail(email);
         if (userId == null) {
             memberRepository.save(new Member(null, email));
