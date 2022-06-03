@@ -9,11 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "member")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +26,11 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Reservation> reservations = new ArrayList<>();
+
+    public Member(Long id, String email) {
+        this.id = id;
+        this.email = email;
+    }
 
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);

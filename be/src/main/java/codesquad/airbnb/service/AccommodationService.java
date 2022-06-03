@@ -4,7 +4,6 @@ import codesquad.airbnb.dto.AccommodationDto;
 import codesquad.airbnb.dto.AccommodationListDto;
 import codesquad.airbnb.dto.AccommodationPriceDto;
 import codesquad.airbnb.dto.AccommodationPriceListDto;
-import codesquad.airbnb.dto.UserSearchForm;
 import codesquad.airbnb.repository.AccommodationRepository;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -23,8 +22,8 @@ public class AccommodationService {
 
     private final AccommodationRepository accommodationRepository;
 
-    public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate, double latitude, double longitude) {
-        long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
+    public AccommodationPriceListDto getPricesByStayDate(LocalDate checkInDate, LocalDate checkOutDate, Double latitude, Double longitude) {
+        Long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
         String point = String.format("POINT(%s %s)", latitude, longitude);
 
         List<Integer> prices = accommodationRepository.findPricesByStayDate(checkInDate, checkOutDate.plusDays(1), stayDays, point);
@@ -44,17 +43,13 @@ public class AccommodationService {
         return new AccommodationPriceListDto(accommodationPrices);
     }
 
-    public AccommodationListDto getAccommodationInfoByCriteria(UserSearchForm userSearchForm) {
-        LocalDate checkInDate = userSearchForm.getIn();
-        LocalDate checkOutDate = userSearchForm.getOut();
+    public AccommodationListDto getAccommodationInfoByCriteria(LocalDate checkInDate, LocalDate checkOutDate, Integer minimumMoney, Integer maximumMoney, Integer personnel, Double latitude, Double longitude) {
         long stayDays = checkInDate.until(checkOutDate, ChronoUnit.DAYS) + 1;
+        String point = String.format("POINT(%s %s)", latitude, longitude);
 
-        String point = String.format("POINT(%s %s)", userSearchForm.getLatitude(), userSearchForm.getLongitude());
+        List<AccommodationDto> accommodation = accommodationRepository.findAllByCriteria(
+            point, checkInDate, checkOutDate.plusDays(1), minimumMoney, maximumMoney, personnel, stayDays);
 
-        int personnel = userSearchForm.getPersonnel();
-        int minimumMoney = userSearchForm.getMinimum_money();
-        int maximumMoney = userSearchForm.getMaximum_money();
-
-        return new AccommodationListDto(accommodationRepository.findAllByCriteria(checkInDate, checkOutDate, stayDays, point, personnel, minimumMoney, maximumMoney));
+        return new AccommodationListDto(accommodation);
     }
 }
