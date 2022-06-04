@@ -1,11 +1,11 @@
 import { DatePickerProvider, DatePicker } from '@bcad1591/react-date-picker';
 import React from 'react';
 
-import Chart from '@/components/Chart';
 import Gnb from '@/components/Gnb';
+import Header from '@/components/Header';
+import PricePicker from '@/components/PricePicker';
 import BigSearchBar from '@/components/SearchBar/BigSearchBar';
 import SmallSearchBar from '@/components/SearchBar/SmallSearchBar';
-import Header from '@/components/Header';
 
 function Temp() {
   return (
@@ -25,17 +25,25 @@ function Temp() {
 
       <Separator />
 
-      <h3>Range Slider & Chart</h3>
-      <Chart />
-      <Separator />
-
       <Gnb>
         <SmallSearchBar />
       </Gnb>
-
       <Separator />
 
+      <h3>
+        Header
+        <br />
+        <br />
+      </h3>
       <Header />
+      <Separator />
+
+      <div style={{ position: 'relative', height: 400 }}>
+        <h3>Price Picker</h3>
+        <br />
+        <PricePicker />
+      </div>
+      <Separator />
     </div>
   );
 }

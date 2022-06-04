@@ -1,67 +1,45 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 interface InputRangeType {
-  minInputValue: number;
-  maxInputValue: number;
+  leftInputValue: number;
+  rightInputValue: number;
 }
 
-interface InputRangeSetterType {
-  setMinInputValue: React.Dispatch<React.SetStateAction<number>>;
-  setMaxInputValue: React.Dispatch<React.SetStateAction<number>>;
-}
+type InputRangeSetterType = React.Dispatch<React.SetStateAction<InputRangeType>>;
 
-const inititalInputRange = {
-  minInputValue: 10,
-  maxInputValue: 1000,
-};
+export const InputRangeContext = createContext<InputRangeType | null>(null);
 
-const inititalInputRangeSetter = {
-  setMinInputValue: () => {},
-  setMaxInputValue: () => {},
-};
+export const InputRangeSetterContext = createContext<InputRangeSetterType | null>(null);
 
-export const InputRangeContext = createContext<InputRangeType>(inititalInputRange);
-
-export const InputRangeSetterContext =
-  createContext<InputRangeSetterType>(inititalInputRangeSetter);
-
-export function InputRangeProvider({
-  children,
-  minPrice,
-  maxPrice,
-}: {
-  children: React.ReactNode;
-  minPrice: number;
-  maxPrice: number;
-}) {
-  const [minInputValue, setMinInputValue] = useState(minPrice);
-  const [maxInputValue, setMaxInputValue] = useState(maxPrice);
-
-  const inputRange = useMemo(() => {
-    return { minInputValue, maxInputValue };
-  }, [minInputValue, maxInputValue]);
-
-  const inputRangeSetter = useMemo(() => {
-    return { setMinInputValue, setMaxInputValue };
-  }, [setMinInputValue, setMaxInputValue]);
-
-  useEffect(() => {
-    console.log(`minInputValue: ${minInputValue} maxInputValue: ${maxInputValue}`);
-  }, [minInputValue, maxInputValue]);
+export function InputRangeProvider({ children }: { children: React.ReactNode }) {
+  const [state, setState] = useState<InputRangeType>({
+    leftInputValue: 0,
+    rightInputValue: 0,
+  });
 
   return (
-    <InputRangeSetterContext.Provider value={inputRangeSetter}>
-      <InputRangeContext.Provider value={inputRange}>{children}</InputRangeContext.Provider>
+    <InputRangeSetterContext.Provider value={setState}>
+      <InputRangeContext.Provider value={state}>{children}</InputRangeContext.Provider>
     </InputRangeSetterContext.Provider>
   );
 }
 
 export const useInputRangeGetter = () => {
-  const { minInputValue, maxInputValue } = useContext(InputRangeContext);
-  return { minInputValue, maxInputValue };
+  const state = useContext(InputRangeContext);
+
+  if (!state) {
+    throw Error('InputRangeContext Error');
+  }
+
+  return state;
 };
 
 export const useInputRangeSetter = () => {
-  const { setMinInputValue, setMaxInputValue } = useContext(InputRangeSetterContext);
-  return { setMinInputValue, setMaxInputValue };
+  const setter = useContext(InputRangeSetterContext);
+
+  if (!setter) {
+    throw Error('InputRangeSetterContext Error');
+  }
+
+  return setter;
 };

@@ -11,13 +11,13 @@ const DEFAULT_PADDING = 24;
 interface Props {
   padding?: number;
   children?: React.ReactNode;
-  withSmallSearchBar: boolean;
+  withSmallSearchBar?: boolean;
 }
 
-function Gnb({ padding = DEFAULT_PADDING, withSmallSearchBar, children = '' }: Props) {
+function Gnb({ padding = DEFAULT_PADDING, withSmallSearchBar = false, children = '' }: Props) {
   const navItems = ['숙소', '체험', '온라인 체험'];
 
-  //TODO: VISIBLE, NON_VISIBLE로 관리하기
+  // TODO: VISIBLE, NON_VISIBLE로 관리하기
   const [clicked, setClicked] = useState(false);
 
   return (

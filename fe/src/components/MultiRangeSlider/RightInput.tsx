@@ -1,34 +1,41 @@
-import { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import {
-  InputRangeContext,
-  InputRangeSetterContext,
+  useInputRangeGetter,
+  useInputRangeSetter,
 } from '@/components/MultiRangeSlider/context/InputRange';
 
+import { InputRange } from './common';
 import * as S from './style';
 
-import { PriceRangeType } from '.';
+function RightInput({ minValue, maxValue }: InputRange) {
+  const inputState = useInputRangeGetter();
+  const setInputValue = useInputRangeSetter();
+  const inputRef = useRef(null);
 
-function RightInput({ minPrice, maxPrice }: PriceRangeType) {
-  const { minInputValue, maxInputValue } = useContext(InputRangeContext);
-  const { setMaxInputValue } = useContext(InputRangeSetterContext);
-  const maxInputValueRef = useRef(null);
+  const { leftInputValue, rightInputValue } = inputState;
 
-  const handleRightSliderThumb = useCallback(
+  const handleChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setMaxInputValue(Math.max(+event.target.value, minInputValue + 1));
+      setInputValue((prevInputValue) => {
+        return {
+          ...prevInputValue,
+          rightInputValue: Math.max(leftInputValue + 1, +event.target.value),
+        };
+      });
     },
-    [maxInputValue],
+    [inputState],
   );
 
   return (
     <S.Input
-      min={minPrice}
-      max={maxPrice}
-      value={maxInputValue}
-      ref={maxInputValueRef}
-      className="thumb zindex-4"
-      onChange={handleRightSliderThumb}
+      className="thumb"
+      min={minValue}
+      max={Math.ceil(maxValue)}
+      value={rightInputValue}
+      ref={inputRef}
+      onChange={handleChangeInput}
+      isLeftValue={false}
     />
   );
 }

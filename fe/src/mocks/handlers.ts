@@ -1,13 +1,15 @@
 import { rest } from 'msw';
 
-const TEST = rest.get(`/test`, (req, res, ctx) => {
+import { pricesURL } from '@/apis/accommodation';
+
+import { accommodationData } from './AccommodationData';
+
+export const prices = rest.get(pricesURL, (req, res, ctx) => {
   return res(
     ctx.status(200),
-    ctx.delay(5000),
-    ctx.json({
-      test: 'test',
-    }),
+    ctx.delay(1000),
+    ctx.json(accommodationData[Math.floor(Math.random() * accommodationData.length)]),
   );
 });
 
-export const handlers = [TEST];
+export const handlers = [prices];
