@@ -1,4 +1,5 @@
 /* 날짜 버튼 */
+import React from 'react';
 
 export interface IDateUnit {
   year: number;
@@ -7,11 +8,13 @@ export interface IDateUnit {
 }
 
 export interface IDateButton {
-  checkIn?: IDateUnit;
-  checkOut?: IDateUnit;
+  checkIn?: IDateUnit | null;
+  checkOut?: IDateUnit | null;
+  onClick: () => void;
+  reset: (event?: React.MouseEvent) => void;
 }
 
-export const dateUnitToString = (unit?: IDateUnit): string => {
+export const dateUnitToString = (unit?: IDateUnit | null): string => {
   if (!unit) {
     return '';
   }
@@ -25,8 +28,10 @@ export const dateUnitToString = (unit?: IDateUnit): string => {
 /* 요금 버튼 */
 
 export interface IPriceButton {
-  minPrice: number | null;
-  maxPrice: number | null;
+  minPrice: number;
+  maxPrice: number;
+  onClick: () => void;
+  reset: (event?: React.MouseEvent) => void;
 }
 
 /* ***** */

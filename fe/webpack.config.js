@@ -32,7 +32,7 @@ module.exports = (env) => {
       fallback: { fs: false, path: false },
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        '@Utils': path.resolve(__dirname, 'src/utils'),
+        '~': path.resolve(__dirname, 'public'),
       },
       extensions: ['.js', '.ts', '.jsx', '.tsx'],
     },

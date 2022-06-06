@@ -18,7 +18,7 @@ function GuestsButton({ adults = 0, child = 0, infants = 0 }: Props) {
   return (
     <S.ButtonWrapper style={style}>
       <InfoButton width={110} header="인원" description={description} sep=", " accent={!!adults} />
-      {adults > 0 && <ResetButton />}
+      {adults > 0 && <ResetButton onClick={() => {}} />}
     </S.ButtonWrapper>
   );
 }

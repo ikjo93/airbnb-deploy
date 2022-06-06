@@ -1,7 +1,15 @@
 import React from 'react';
 
+import Header from '@/components/Header';
+
+import * as S from './style';
+
 function Search() {
-  return <div>Search</div>;
+  return (
+    <S.SearchLayer>
+      <Header withSmallSearchBar />
+    </S.SearchLayer>
+  );
 }
 
 export default Search;

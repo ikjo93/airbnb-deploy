@@ -30,7 +30,8 @@ export const Header = styled.header``;
 
 export const PricePickerLayer = styled.div`
   background-color: ${({ theme }) => theme.color.white};
-  position: absolute;
+  position: relative;
+  display: inline-block;
   padding: 64px;
   border-radius: 40px;
   box-shadow: 0 4px 10px rgba(51, 51, 51, 0.1), 0 0 4px rgba(51, 51, 51, 0.05);

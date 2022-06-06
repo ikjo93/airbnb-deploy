@@ -39,7 +39,7 @@ const bzCurve: BzCurve = (
   CANVAS_HEIGHT,
   { f = 0.3, t = 0.6, innerFillStyle = '#000', outerFillStyle = '#bbb', strokeStyle = '#fff' },
 ) => {
-  if (points.length <= 1) {
+  if (!points || points.length <= 1) {
     return;
   }
 
@@ -87,7 +87,7 @@ const bzCurve: BzCurve = (
     ctx.strokeStyle = strokeStyle;
   };
 
-  for (i = 1; points[i].x <= min; i += 1) {
+  for (i = 1; points[i]?.x <= min; i += 1) {
     drawBezierCurve(i);
   }
 

@@ -8,7 +8,7 @@ const thumbCommon = () => `
   pointer-events: all;
   height: 20px;
   width: 20px;
-  background: url('/sliderThumb.svg') no-repeat center center;
+  background: url('/assets/images/sliderThumb.svg') no-repeat center center;
   border: none;
   cursor: pointer;
   z-index: 5;

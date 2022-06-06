@@ -1,3 +1,4 @@
+import { DatePickerProvider } from '@bcad1591/react-date-picker';
 import React, { useEffect } from 'react';
 
 import Router from '@/Router';
@@ -19,8 +20,9 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Router />
-      <Temp />
+      <DatePickerProvider>
+        <Router />
+      </DatePickerProvider>
     </>
   );
 }
