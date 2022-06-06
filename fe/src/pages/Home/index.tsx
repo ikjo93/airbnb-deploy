@@ -9,9 +9,7 @@ function Home() {
   return (
     <S.Background>
       <S.HomeLayer>
-        <DatePickerProvider>
-          <Header />
-        </DatePickerProvider>
+        <Header />
       </S.HomeLayer>
     </S.Background>
   );

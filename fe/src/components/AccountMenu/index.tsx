@@ -8,7 +8,7 @@ interface Props {
   isLoggedIn?: boolean;
 }
 
-function AccountMenu({ isLoggedIn = false }: Props) {
+function AccountMenu({ isLoggedIn = true }: Props) {
   return (
     <S.AccountMenuLayer>
       <S.MenuLayer>
