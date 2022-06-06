@@ -10,8 +10,8 @@ export interface IDateUnit {
 export interface IDateButton {
   checkIn?: IDateUnit | null;
   checkOut?: IDateUnit | null;
-  reset: (event?: React.MouseEvent) => void;
   onClick: () => void;
+  reset: (event?: React.MouseEvent) => void;
 }
 
 export const dateUnitToString = (unit?: IDateUnit | null): string => {
@@ -31,7 +31,7 @@ export interface IPriceButton {
   minPrice: number;
   maxPrice: number;
   onClick: () => void;
-  reset: () => void;
+  reset: (event?: React.MouseEvent) => void;
 }
 
 /* ***** */
