@@ -21,7 +21,7 @@ function PriceButton({ minPrice, maxPrice, reset, onClick }: Props) {
         sep=" ~ "
         accent={!!minPrice || !!maxPrice}
       />
-      {(minPrice || maxPrice) && <ResetButton onClick={reset} />}
+      {maxPrice !== 0 && <ResetButton onClick={reset} />}
     </S.ButtonWrapper>
   );
 }
