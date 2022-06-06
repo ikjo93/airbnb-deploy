@@ -13,3 +13,7 @@ export const BigSearchBarLayout = styled.div<{ marginTop: number }>`
 export const BigSearchBarWrapper = styled.div`
   ${mixin.flexbox({ jc: 'center' })}
 `;
+
+export const HeaderLayer = styled.div`
+  padding-top: 24px;
+`;
