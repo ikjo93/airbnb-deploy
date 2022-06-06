@@ -20,10 +20,8 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Router />
-
       <DatePickerProvider>
-        <Temp />
+        <Router />
       </DatePickerProvider>
     </>
   );

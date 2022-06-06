@@ -85,7 +85,7 @@ function Header({ withSmallSearchBar = false }: Props) {
   }, [firstPickedDateUnit, secondPickedDateUnit]);
 
   return (
-    <>
+    <S.HeaderLayer>
       <Gnb padding={withSmallSearchBar ? 24 : 80}>
         {withSmallSearchBar && isSmallSearchBarVisible && (
           <SmallSearchBar onClick={handleClickSmallSearchBar}>
@@ -126,7 +126,7 @@ function Header({ withSmallSearchBar = false }: Props) {
           </S.BigSearchBarLayout>
         )}
       </S.BigSearchBarWrapper>
-    </>
+    </S.HeaderLayer>
   );
 }
 
