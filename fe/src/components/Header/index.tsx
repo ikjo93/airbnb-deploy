@@ -35,7 +35,8 @@ const initialPopupState = [
 ];
 
 function Header({ withSmallSearchBar = false }: Props) {
-  const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(false);
+  const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
+
   const bigSearchBarRef = useRef<HTMLDivElement>(null);
   const {
     pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit }, // NOTE
@@ -78,7 +79,7 @@ function Header({ withSmallSearchBar = false }: Props) {
 
     document.addEventListener('click', listener);
     return () => document.removeEventListener('click', listener);
-  }, [popupElements, isSmallSearchBarVisible]);
+  }, [popupElements]);
 
   useEffect(() => {
     resetPrices();
@@ -93,7 +94,7 @@ function Header({ withSmallSearchBar = false }: Props) {
             <Small.Separator />
             <PriceButton minPrice={minPrice} maxPrice={maxPrice} />
             <Small.Separator />
-            <GuestsButton adults={1} />
+            <GuestsButton />
           </SmallSearchBar>
         )}
       </Gnb>
