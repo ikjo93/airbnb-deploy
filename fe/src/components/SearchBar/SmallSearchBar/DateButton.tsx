@@ -3,7 +3,7 @@ import React from 'react';
 import { IDateButton as Props, dateUnitToString } from '../common';
 import { InfoButton } from './Button';
 
-function DateButton({ checkIn, checkOut }: Omit<Props, 'reset'>) {
+function DateButton({ checkIn, checkOut }: Omit<Props, 'reset' | 'onClick'>) {
   let description: string | string[] = '일정 입력';
 
   if (checkIn || checkOut) {

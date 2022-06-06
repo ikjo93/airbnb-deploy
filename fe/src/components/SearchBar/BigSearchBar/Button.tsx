@@ -34,7 +34,7 @@ export function InfoButton({
 }
 
 interface ResetButtonProps {
-  onClick?: ((event?: React.MouseEvent) => void) | undefined;
+  onClick: (event?: React.MouseEvent) => void;
 }
 
 export function ResetButton({ onClick }: ResetButtonProps) {
