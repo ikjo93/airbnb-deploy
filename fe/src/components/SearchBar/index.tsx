@@ -1,6 +1,11 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
 import React, { useState, useRef, useEffect } from 'react';
 
+import {
+  useInputRangeGetter,
+  useInputRangeSetter,
+} from '@/components/MultiRangeSlider/context/InputRange';
+import PricePicker from '@/components/PricePicker';
 import BigSearchBar from '@/components/SearchBar/BigSearchBar';
 import BigDateButton from '@/components/SearchBar/BigSearchBar/DateButton';
 import BigGuestsButton from '@/components/SearchBar/BigSearchBar/GuestsButton';
@@ -11,6 +16,7 @@ import DateButton from '@/components/SearchBar/SmallSearchBar/DateButton';
 import GuestsButton from '@/components/SearchBar/SmallSearchBar/GuestsButton';
 import PriceButton from '@/components/SearchBar/SmallSearchBar/PriceButton';
 import * as Small from '@/components/SearchBar/SmallSearchBar/style';
+import { useAccommodation } from '@/contexts/Accommodation';
 
 import * as S from './style';
 
@@ -25,7 +31,7 @@ function SearchBar() {
     },
     {
       key: 'pricePicker',
-      component: <div>Price Picker</div>,
+      component: <PricePicker />,
       position: { right: 0 },
       isOpen: false,
     },
@@ -34,6 +40,11 @@ function SearchBar() {
   const {
     pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit },
   } = useDatePickGetter();
+  const { leftInputValue, rightInputValue } = useInputRangeGetter();
+  const { scaleFactor, offset, initialMaxPrice, initialMinPrice } = useAccommodation();
+  // const {} = useInputRangeSetter();
+  const minPrice = leftInputValue * scaleFactor + offset;
+  const maxPrice = rightInputValue * scaleFactor + offset;
 
   const resetDate = useDatePickReset();
 
@@ -83,7 +94,7 @@ function SearchBar() {
       <SmallSearchBar>
         <DateButton checkIn={firstPickedDateUnit} checkOut={secondPickedDateUnit} />
         <Small.Separator />
-        <PriceButton minPrice={10} maxPrice={20000} />
+        <PriceButton minPrice={minPrice} maxPrice={maxPrice} />
         <Small.Separator />
         <GuestsButton adults={1} />
       </SmallSearchBar>
@@ -103,8 +114,8 @@ function SearchBar() {
               />
               <Big.Separator />
               <BigPriceButton
-                minPrice={100}
-                maxPrice={100}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
                 onClick={openPopup('pricePicker')}
                 reset={() => {}}
               />

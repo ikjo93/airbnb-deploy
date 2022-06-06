@@ -18,8 +18,14 @@ function PricePicker() {
   const { data: accommodationData, isLoading } = useFetch<IAccommodation[]>(pricesURL);
 
   const accommodationDispatch = useAccommodationDispatch();
-  const { maxPrice, minPrice, maxCount, averageNightlyPrice, chartData, canvasWidth } =
-    useAccommodation();
+  const {
+    initialMaxPrice,
+    initialMinPrice,
+    maxCount,
+    averageNightlyPrice,
+    chartData,
+    canvasWidth,
+  } = useAccommodation();
 
   useEffect(() => {
     if (!accommodationData) {
@@ -39,7 +45,8 @@ function PricePicker() {
         ) : (
           <>
             <S.Price>
-              {`${prefix}${minPrice.toLocaleString()}`} - {`${prefix}${maxPrice.toLocaleString()}`}
+              {`${prefix}${initialMinPrice?.toLocaleString()}`} -{' '}
+              {`${prefix}${initialMaxPrice?.toLocaleString()}`}
             </S.Price>
             <S.Average>
               평균 1박 요금은 {prefix}

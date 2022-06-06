@@ -28,8 +28,8 @@ export const dateUnitToString = (unit?: IDateUnit | null): string => {
 /* 요금 버튼 */
 
 export interface IPriceButton {
-  minPrice: number | null;
-  maxPrice: number | null;
+  minPrice: number;
+  maxPrice: number;
   onClick: () => void;
   reset: () => void;
 }

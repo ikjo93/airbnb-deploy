@@ -96,7 +96,7 @@ export const SearchBarLayer = styled.div`
 
 export const PopupLayer = styled.div<{ left?: number; right?: number }>`
   position: absolute;
-  width: 100%;
+  margin-top: 10px;
   top: 70px;
   ${({ left }) => left !== undefined && `left: ${left}px`};
   ${({ right }) => right !== undefined && `right: ${right}px`};

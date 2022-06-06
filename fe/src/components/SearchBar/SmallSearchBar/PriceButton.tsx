@@ -7,7 +7,7 @@ const PREFIX = '₩';
 function PriceButton({ minPrice, maxPrice }: Omit<Props, 'onClick' | 'reset'>) {
   let description: string | string[] = '금액대 입력';
 
-  if (minPrice !== null && maxPrice !== null) {
+  if (maxPrice !== 0) {
     description = [PREFIX + minPrice.toLocaleString(), PREFIX + maxPrice.toLocaleString()];
   }
 
