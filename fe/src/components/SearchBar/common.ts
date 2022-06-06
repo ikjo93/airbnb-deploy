@@ -12,7 +12,7 @@ export interface IDateButton {
   reset: () => void;
 }
 
-export const dateUnitToString = (unit?: IDateUnit): string => {
+export const dateUnitToString = (unit?: IDateUnit | null): string => {
   if (!unit) {
     return '';
   }
