@@ -92,14 +92,19 @@ export const SearchBarLayer = styled.div`
   min-height: 48px;
   border-radius: 30px;
   overflow: hidden;
-
-  // TODO: isAllFilled - 조건부 스타일 하기
-  ${Button} {
-    font-size: ${({ theme }) => theme.fontSize.xs};
-    color: inherit;
-  }
 `;
 
-export const SearchBarLayout = styled.div``;
+export const SearchBarLayout = styled.div`
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  z-index: ${({ theme }) => theme.zIndex.header.searchBar};
+`;
 
-export const PopupLayer = styled.div``;
+export const PopupLayer = styled.div<{ left?: number; right?: number }>`
+  position: absolute;
+  width: 100%;
+  top: 70px;
+  ${({ left }) => left !== undefined && `left: ${left}px`};
+  ${({ right }) => right !== undefined && `right: ${right}px`};
+`;
