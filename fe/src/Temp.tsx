@@ -1,13 +1,13 @@
 import { DatePickerProvider } from '@bcad1591/react-date-picker';
 import React from 'react';
 
-import SearchBar from '@/components/Header';
+import Header from '@/components/Header';
 
 export default function Temp() {
   return (
     <div style={{ padding: 20, background: '#eee', height: '200vh' }}>
       <DatePickerProvider>
-        <SearchBar />
+        <Header />
       </DatePickerProvider>
     </div>
   );
