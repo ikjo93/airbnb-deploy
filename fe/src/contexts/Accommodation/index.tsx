@@ -17,8 +17,8 @@ interface AccommodationState {
   offset: number;
   canvasWidth: number;
   maxCount: number;
-  maxPrice: number;
-  minPrice: number;
+  initialMaxPrice: number;
+  initialMinPrice: number;
   chartData: Point[];
 }
 
@@ -34,8 +34,8 @@ const initialState: AccommodationState = {
   offset: 0,
   canvasWidth: 0,
   maxCount: 0,
-  maxPrice: 0,
-  minPrice: 0,
+  initialMaxPrice: 0,
+  initialMinPrice: 0,
   chartData: [],
 };
 
@@ -57,9 +57,9 @@ const accommodationReducer = (state: AccommodationState, action: AccommodationAc
       });
 
       const { length } = fetchData;
-      const { price: minPrice } = fetchData[0];
-      const { price: maxPrice } = fetchData[length - 1];
-      const offset = minPrice;
+      const { price: initialMinPrice } = fetchData[0];
+      const { price: initialMaxPrice } = fetchData[length - 1];
+      const offset = initialMinPrice;
 
       let maxCount = 0;
       const sumOfPrices = fetchData.reduce((acc, { price, count }) => {
@@ -85,8 +85,8 @@ const accommodationReducer = (state: AccommodationState, action: AccommodationAc
         offset,
         canvasWidth,
         maxCount,
-        minPrice,
-        maxPrice,
+        initialMinPrice,
+        initialMaxPrice,
         chartData,
       };
     }
