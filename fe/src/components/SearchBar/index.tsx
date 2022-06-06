@@ -1,5 +1,5 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 
 import {
   useInputRangeGetter,
@@ -27,7 +27,7 @@ function SearchBar() {
       key: 'datePicker',
       component: <DatePicker disablePreviousDays />,
       position: { left: 0 },
-      isOpen: true,
+      isOpen: false,
     },
     {
       key: 'pricePicker',
@@ -42,11 +42,23 @@ function SearchBar() {
   } = useDatePickGetter();
   const { leftInputValue, rightInputValue } = useInputRangeGetter();
   const { scaleFactor, offset, initialMaxPrice, initialMinPrice } = useAccommodation();
-  // const {} = useInputRangeSetter();
+  const setPrices = useInputRangeSetter();
+  const resetPickedDates = useDatePickReset();
+
   const minPrice = leftInputValue * scaleFactor + offset;
   const maxPrice = rightInputValue * scaleFactor + offset;
+  const initialLeftInputValue = useMemo(
+    () => (initialMinPrice - offset) / scaleFactor,
+    [initialMinPrice],
+  );
+  const initialRightInputValue = useMemo(
+    () => (initialMaxPrice - offset) / scaleFactor,
+    [initialMaxPrice],
+  );
 
-  const resetDate = useDatePickReset();
+  const resetPrices = () => {
+    setPrices({ leftInputValue: initialLeftInputValue, rightInputValue: initialRightInputValue });
+  };
 
   const openPopup = (key: string) => () => {
     setPopups((prevPopups) =>
@@ -108,7 +120,7 @@ function SearchBar() {
                 checkOut={secondPickedDateUnit}
                 reset={(e) => {
                   e?.stopPropagation();
-                  resetDate();
+                  resetPickedDates();
                 }}
                 onClick={openPopup('datePicker')}
               />
@@ -117,7 +129,10 @@ function SearchBar() {
                 minPrice={minPrice}
                 maxPrice={maxPrice}
                 onClick={openPopup('pricePicker')}
-                reset={() => {}}
+                reset={(e) => {
+                  e?.stopPropagation();
+                  resetPrices();
+                }}
               />
               <Big.Separator />
               <BigGuestsButton child={1} />
