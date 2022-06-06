@@ -6,7 +6,7 @@ import * as S from './style';
 
 function BigSearchBar({ buttons, popup }: { buttons: any; popup: any }) {
   return (
-    <S.SearchBarLayout>
+    <>
       <S.SearchBarLayer>
         {buttons}
         {/* TODO: 위 세가지 필드중 하나라도 채워져야 검색 버튼 활성화 */}
@@ -14,10 +14,12 @@ function BigSearchBar({ buttons, popup }: { buttons: any; popup: any }) {
           <SearchButton>검색</SearchButton>
         </S.SearchButtonLayer>
       </S.SearchBarLayer>
-      <S.PopupLayer left={popup?.position.left} right={popup?.position.right}>
-        {popup?.component}
-      </S.PopupLayer>
-    </S.SearchBarLayout>
+      {popup && (
+        <S.PopupLayer left={popup.position.left} right={popup.position.right}>
+          {popup.component}
+        </S.PopupLayer>
+      )}
+    </>
   );
 }
 
