@@ -1,5 +1,5 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import BigSearchBar from '@/components/SearchBar/BigSearchBar';
 import BigDateButton from '@/components/SearchBar/BigSearchBar/DateButton';
@@ -12,7 +12,10 @@ import GuestsButton from '@/components/SearchBar/SmallSearchBar/GuestsButton';
 import PriceButton from '@/components/SearchBar/SmallSearchBar/PriceButton';
 import * as Small from '@/components/SearchBar/SmallSearchBar/style';
 
+import * as S from './style';
+
 function SearchBar() {
+  const bigSearchBarRef = useRef<HTMLDivElement>(null);
   const [popups, setPopups] = useState([
     {
       key: 'datePicker',
@@ -34,7 +37,7 @@ function SearchBar() {
 
   const resetDate = useDatePickReset();
 
-  const onClickButton = (key: string) => () => {
+  const openPopup = (key: string) => () => {
     setPopups((prevPopups) =>
       prevPopups.map((popup) => {
         if (popup.key === key) {
@@ -51,36 +54,32 @@ function SearchBar() {
     );
   };
 
+  const closeAllPopups = () => {
+    setPopups((prevPopups) =>
+      prevPopups.map((popup) => {
+        return {
+          ...popup,
+          isOpen: false,
+        };
+      }),
+    );
+  };
+
+  useEffect(() => {
+    const listener = (e: MouseEvent) => {
+      if (bigSearchBarRef.current?.contains(e.target as HTMLElement)) {
+        return;
+      }
+
+      closeAllPopups();
+    };
+
+    document.addEventListener('click', listener);
+    return () => document.removeEventListener('click', listener);
+  }, []);
+
   return (
     <>
-      <BigSearchBar
-        buttons={
-          <>
-            <BigDateButton
-              checkIn={firstPickedDateUnit}
-              checkOut={secondPickedDateUnit}
-              reset={(e) => {
-                e?.stopPropagation();
-                resetDate();
-              }}
-              onClick={onClickButton('datePicker')}
-            />
-            <Big.Separator />
-            <BigPriceButton
-              minPrice={100}
-              maxPrice={100}
-              onClick={onClickButton('pricePicker')}
-              reset={() => {}}
-            />
-            <Big.Separator />
-            <BigGuestsButton child={1} />
-          </>
-        }
-        popup={popups.find((element) => {
-          return element.isOpen;
-        })}
-      />
-
       <SmallSearchBar>
         <DateButton checkIn={firstPickedDateUnit} checkOut={secondPickedDateUnit} />
         <Small.Separator />
@@ -88,6 +87,36 @@ function SearchBar() {
         <Small.Separator />
         <GuestsButton adults={1} />
       </SmallSearchBar>
+
+      <S.BigSearchBarLayout ref={bigSearchBarRef}>
+        <BigSearchBar
+          buttons={
+            <>
+              <BigDateButton
+                checkIn={firstPickedDateUnit}
+                checkOut={secondPickedDateUnit}
+                reset={(e) => {
+                  e?.stopPropagation();
+                  resetDate();
+                }}
+                onClick={openPopup('datePicker')}
+              />
+              <Big.Separator />
+              <BigPriceButton
+                minPrice={100}
+                maxPrice={100}
+                onClick={openPopup('pricePicker')}
+                reset={() => {}}
+              />
+              <Big.Separator />
+              <BigGuestsButton child={1} />
+            </>
+          }
+          popup={popups.find((element) => {
+            return element.isOpen;
+          })}
+        />
+      </S.BigSearchBarLayout>
     </>
   );
 }

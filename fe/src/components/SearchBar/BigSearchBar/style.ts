@@ -94,13 +94,6 @@ export const SearchBarLayer = styled.div`
   overflow: hidden;
 `;
 
-export const SearchBarLayout = styled.div`
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  z-index: ${({ theme }) => theme.zIndex.header.searchBar};
-`;
-
 export const PopupLayer = styled.div<{ left?: number; right?: number }>`
   position: absolute;
   width: 100%;
