@@ -6,8 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import App from '@/App';
 import { InputRangeProvider } from '@/components/MultiRangeSlider/context/InputRange';
 import { AccommodationProvider } from '@/contexts/Accommodation';
-import '@/assets/style.css';
 import theme from '@/styles/theme';
+import '~/assets/style.css';
 
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require
