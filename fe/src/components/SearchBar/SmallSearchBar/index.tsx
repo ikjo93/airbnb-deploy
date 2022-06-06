@@ -6,11 +6,12 @@ import * as S from './style';
 
 interface Props {
   children: React.ReactNode;
+  onClick: () => void;
 }
 
-function SmallSearchBar({ children }: Props) {
+function SmallSearchBar({ children, onClick }: Props) {
   return (
-    <S.SearchBarLayer>
+    <S.SearchBarLayer onClick={onClick}>
       {children}
       <S.SearchButtonLayer>
         <SmallSearchButton />

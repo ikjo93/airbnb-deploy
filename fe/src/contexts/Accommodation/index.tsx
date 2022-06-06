@@ -145,3 +145,16 @@ export const useAccommodationDispatch = () => {
 
   return dispatch;
 };
+
+export const useAccommodationReset = () => {
+  const dispatch = useContext(AccommodationDispatchContext);
+
+  if (dispatch === null) {
+    throw Error('Accommodation dispatch Error');
+  }
+  const reset = () => {
+    dispatch(resetAction());
+  };
+
+  return reset;
+};
