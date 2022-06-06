@@ -9,6 +9,7 @@ export const AccountMenuLayer = styled.div`
   border: 1px solid ${({ theme }) => theme.color.gray4};
   border-radius: 30px;
   padding: 0 4px 0 16px;
+  background-color: ${({ theme }) => theme.color.white};
 `;
 
 export const MenuLayer = styled.div`
