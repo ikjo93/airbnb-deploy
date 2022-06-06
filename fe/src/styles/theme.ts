@@ -22,12 +22,21 @@ const fontSize = {
   xl: '20px',
 };
 
+const zIndex = {
+  header: {
+    searchBar: 100,
+    accountMenu: 200,
+  },
+};
+
 const theme = {
   color,
   fontSize,
+  zIndex,
 };
 
 export type Color = typeof color;
 export type FontSize = typeof fontSize;
+export type ZIndex = typeof zIndex;
 
 export default theme;
