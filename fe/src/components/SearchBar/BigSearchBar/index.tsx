@@ -4,7 +4,7 @@ import { SearchButton } from '@/components/buttons/SearchButton';
 
 import * as S from './style';
 
-function BigSearchBar({ buttons, popups }: { buttons: any; popups: any }) {
+function BigSearchBar({ buttons, popup }: { buttons: any; popup: any }) {
   return (
     <S.SearchBarLayout>
       <S.SearchBarLayer>
@@ -14,7 +14,9 @@ function BigSearchBar({ buttons, popups }: { buttons: any; popups: any }) {
           <SearchButton>검색</SearchButton>
         </S.SearchButtonLayer>
       </S.SearchBarLayer>
-      <S.PopupLayer>{popups}</S.PopupLayer>
+      <S.PopupLayer left={popup?.position.left} right={popup?.position.right}>
+        {popup?.component}
+      </S.PopupLayer>
     </S.SearchBarLayout>
   );
 }

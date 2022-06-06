@@ -1,4 +1,5 @@
-import React from 'react';
+import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
+import React, { useState } from 'react';
 
 import BigSearchBar from '@/components/SearchBar/BigSearchBar';
 import BigDateButton from '@/components/SearchBar/BigSearchBar/DateButton';
@@ -12,18 +13,43 @@ import PriceButton from '@/components/SearchBar/SmallSearchBar/PriceButton';
 import * as Small from '@/components/SearchBar/SmallSearchBar/style';
 
 function SearchBar() {
-  const aasa = [
+  const [popups, setPopups] = useState([
     {
       key: 'datePicker',
-      component: <div>Date Picker</div>,
+      component: <DatePicker disablePreviousDays />,
+      position: { left: 0 },
       isOpen: true,
     },
     {
       key: 'pricePicker',
       component: <div>Price Picker</div>,
-      isOpen: true,
+      position: { right: 0 },
+      isOpen: false,
     },
-  ];
+  ]);
+
+  const {
+    pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit },
+  } = useDatePickGetter();
+
+  const resetDate = useDatePickReset();
+
+  const onClickButton = (key: string) => () => {
+    setPopups((prevPopups) =>
+      prevPopups.map((popup) => {
+        if (popup.key === key) {
+          return {
+            ...popup,
+            isOpen: !popup.isOpen,
+          };
+        }
+        return {
+          ...popup,
+          isOpen: false,
+        };
+      }),
+    );
+  };
 
   return (
     <>
@@ -31,26 +57,32 @@ function SearchBar() {
         buttons={
           <>
             <BigDateButton
-              checkIn={{ year: 2022, month: 7, day: 4 }}
-              checkOut={{ year: 2022, month: 7, day: 5 }}
-              reset={() => {}}
+              checkIn={firstPickedDateUnit}
+              checkOut={secondPickedDateUnit}
+              reset={(e) => {
+                e?.stopPropagation();
+                resetDate();
+              }}
+              onClick={onClickButton('datePicker')}
             />
             <Big.Separator />
-            <BigPriceButton minPrice={100} maxPrice={100} />
+            <BigPriceButton
+              minPrice={100}
+              maxPrice={100}
+              onClick={onClickButton('pricePicker')}
+              reset={() => {}}
+            />
             <Big.Separator />
             <BigGuestsButton child={1} />
           </>
         }
-        popups={aasa.map((element) => {
-          return element.component;
+        popup={popups.find((element) => {
+          return element.isOpen;
         })}
       />
 
       <SmallSearchBar>
-        <DateButton
-          checkIn={{ year: 2022, month: 5, day: 25 }}
-          checkOut={{ year: 2022, month: 5, day: 27 }}
-        />
+        <DateButton checkIn={firstPickedDateUnit} checkOut={secondPickedDateUnit} />
         <Small.Separator />
         <PriceButton minPrice={10} maxPrice={20000} />
         <Small.Separator />
