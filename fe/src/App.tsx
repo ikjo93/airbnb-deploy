@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 
 import Router from '@/Router';
 import GlobalStyle from '@/styles/GlobalStyle';
-import Temp from '@/Temp';
 import { getGeoLocation } from '@/utils';
 
 function App() {
