@@ -1,5 +1,6 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
 import React, { useState, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import Gnb from '@/components/Gnb';
 import { usePrice, usePopup } from '@/components/Header/hooks';
@@ -34,27 +35,45 @@ const initialPopupState = [
   },
 ];
 
-function Header({ withSmallSearchBar = false }: Props) {
-  const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
+const useSearchPage = (params) => {
+  const [searchParams] = useSearchParams();
+  return params.reduce((acc, param) => {
+    acc[param] = searchParams.get(param);
+    return acc;
+  }, {});
+};
 
+function Header({ withSmallSearchBar = false }: Props) {
+  const rendered = useRef<boolean>(false);
+  const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
   const bigSearchBarRef = useRef<HTMLDivElement>(null);
   const {
-    pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit }, // NOTE
+    pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit },
   } = useDatePickGetter();
   const resetPickedDates = useDatePickReset();
-
   const { popupElements, openPopupElement, closeAllPopups } = usePopup(initialPopupState);
-
-  const { minPrice, maxPrice, resetRangeInputPrice, resetPrices } = usePrice();
+  const { minPrice, maxPrice, resetRangeInputPrice, resetPrices, setMinPrice, setMaxPrice } =
+    usePrice();
 
   const handleClickSmallSearchBar = () => {
     setIsSmallSearchBarVisible(false);
   };
-
   const resetState = (resetFunc) => (e) => {
     e.stopPropagation();
     resetFunc();
   };
+
+  // useEffect(() => {
+  // 파라미터가 없으면 리셋
+  // 파라미터가 있으면 파라미터로 세팅
+  // if (value === 'value') {
+  // setMinPrice();
+  // setMaxPrice();
+  // } else {
+  //   resetPrices();
+  //   resetPickedDates();
+  // }
+  // }, []);
 
   useEffect(() => {
     const listener = (e: MouseEvent) => {
@@ -82,6 +101,10 @@ function Header({ withSmallSearchBar = false }: Props) {
   }, [popupElements]);
 
   useEffect(() => {
+    if (!rendered.current) {
+      rendered.current = true;
+      return;
+    }
     resetPrices();
   }, [firstPickedDateUnit, secondPickedDateUnit]);
 
