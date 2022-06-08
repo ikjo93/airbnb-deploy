@@ -36,3 +36,8 @@ export const PricePickerLayer = styled.div`
   border-radius: 40px;
   box-shadow: 0 4px 10px rgba(51, 51, 51, 0.1), 0 0 4px rgba(51, 51, 51, 0.05);
 `;
+
+export const Error = styled.div`
+  width: 367px;
+  height: 233px;
+`;
