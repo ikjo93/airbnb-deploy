@@ -9,6 +9,6 @@ export const HomeLayer = styled.div`
 export const Background = styled.div`
   width: 100%;
   height: 640px;
-  background: url('/assets/images/home.png') 50%;
+  background: url('/img/home.png') 50%;
   background-size: cover;
 `;
