@@ -2,13 +2,15 @@ import styled from 'styled-components';
 
 import { mixin } from '@/styles/mixin';
 
+import svgImage from '~/assets/images/sliderThumb.svg';
+
 const thumbCommon = () => `
   -webkit-appearance: none;
   position: relative;
   pointer-events: all;
   height: 20px;
   width: 20px;
-  background: url('/assets/images/sliderThumb.svg') no-repeat center center;
+  background: url(${svgImage}) no-repeat center center;
   border: none;
   cursor: pointer;
   z-index: 5;
