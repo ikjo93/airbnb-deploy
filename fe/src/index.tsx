@@ -8,6 +8,7 @@ import { InputRangeProvider } from '@/components/MultiRangeSlider/context/InputR
 import { AccommodationProvider } from '@/contexts/Accommodation';
 import { GeoLocationProvider } from '@/contexts/GeoLocation';
 import theme from '@/styles/theme';
+
 import '~/assets/style.css';
 
 if (process.env.NODE_ENV === 'development') {
