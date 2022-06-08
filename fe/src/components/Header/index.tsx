@@ -1,6 +1,6 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
 import React, { useState, useRef, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import Gnb from '@/components/Gnb';
 import { usePrice, usePopup } from '@/components/Header/hooks';
@@ -23,17 +23,21 @@ interface Props {
 }
 
 const useSearchPage = (params) => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  return params.reduce((acc, param) => {
-    acc[param] = searchParams.get(param);
-    return acc;
-  }, {});
+  return [
+    params.reduce((acc, param) => {
+      acc[param] = searchParams.get(param);
+      return acc;
+    }, {}),
+    location,
+  ];
 };
 
 const dateUnitToString = (date) => {
   if (date) {
     const { year, month, day } = date;
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   }
   const today = new Date();
   const year = today.getFullYear();
@@ -43,6 +47,7 @@ const dateUnitToString = (date) => {
 };
 
 function Header({ withSmallSearchBar = false }: Props) {
+  const [searchParams, location] = useSearchPage(['in', 'out', 'minimum_money', 'maximum_money']);
   const rendered = useRef<boolean>(false);
   const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
   const bigSearchBarRef = useRef<HTMLDivElement>(null);
@@ -81,17 +86,23 @@ function Header({ withSmallSearchBar = false }: Props) {
     resetFunc();
   };
 
-  // useEffect(() => {
-  // 파라미터가 없으면 리셋
-  // 파라미터가 있으면 파라미터로 세팅
-  // if (value === 'value') {
-  // setMinPrice();
-  // setMaxPrice();
-  // } else {
-  //   resetPrices();
-  //   resetPickedDates();
-  // }
-  // }, []);
+  useEffect(() => {
+    if (Object.keys(searchParams).length) {
+      const {
+        in: checkIn,
+        out: checkOut,
+        minimum_money: minimumMoney,
+        maximum_money: maximumMoney,
+      } = searchParams;
+      // 파라미터가 있으면 파라미터로 세팅
+      setMinPrice(Number(minimumMoney) ?? 0);
+      setMaxPrice(Number(maximumMoney) ?? 0);
+    } else {
+      // 파라미터가 없으면 리셋
+      resetPrices();
+      resetPickedDates();
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const listener = (e: MouseEvent) => {
@@ -164,6 +175,12 @@ function Header({ withSmallSearchBar = false }: Props) {
                 </>
               }
               popup={popupElements.find((element) => element.isOpen)}
+              params={{
+                checkInParam: dateUnitToString(firstPickedDateUnit),
+                checkOutParam: dateUnitToString(secondPickedDateUnit),
+                minPriceParam: minPrice,
+                maxPriceParam: maxPrice || 1_000_000,
+              }}
             />
           </S.BigSearchBarLayout>
         )}
