@@ -1,0 +1,51 @@
+name: FRONTEND CI/CD
+
+on:
+  push:
+    branches: [ deploy-FE ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./fe
+
+    strategy:
+      matrix:
+        node-version: [16.x] # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout Github-Action
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: './fe/package-lock.json'
+
+      - run: npm ci
+      - run: npm run build --if-present
+
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+          docker build -t airbnb-react .
+          docker tag airbnb-react auddlr100/airbnb-react:${GITHUB_SHA::7}
+          docker push auddlr100/airbnb-react:${GITHUB_SHA::7}
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-3-36-67-143.ap-northeast-2.compute.amazonaws.com
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker pull auddlr100/airbnb-react:${GITHUB_SHA::7}
+            docker tag auddlr100/airbnb-react:${GITHUB_SHA::7} airbnb-react
+            docker stop react-server
+            docker run -d --rm --name react-server -v /etc/nginx:/etc/nginx -p 80:80 airbnb-react
