@@ -1,16 +1,27 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { SearchButton } from '@/components/buttons/SearchButton';
 
 import * as S from './style';
 
-function BigSearchBar({ buttons, popup }: { buttons: any; popup: any }) {
+const getSearchParams = (params) => {
+  const { checkInParam, checkOutParam, minPriceParam, maxPriceParam } = params;
+  return `in=${checkInParam}&out=${checkOutParam}&minimum_money=${minPriceParam}&maximum_money=${maxPriceParam}`;
+};
+
+function BigSearchBar({ buttons, popup, params }: { buttons: any; popup: any }) {
+  const navigate = useNavigate();
   return (
     <>
       <S.SearchBarLayer>
         {buttons}
-        {/* TODO: 위 세가지 필드중 하나라도 채워져야 검색 버튼 활성화 */}
-        <S.SearchButtonLayer disabled={false}>
+        <S.SearchButtonLayer
+          disabled={false}
+          onClick={() => {
+            navigate(`/search?${getSearchParams(params)}`);
+          }}
+        >
           <SearchButton>검색</SearchButton>
         </S.SearchButtonLayer>
       </S.SearchBarLayer>

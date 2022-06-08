@@ -1,5 +1,6 @@
 import { DatePicker, useDatePickReset, useDatePickGetter } from '@bcad1591/react-date-picker';
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import Gnb from '@/components/Gnb';
 import { usePrice, usePopup } from '@/components/Header/hooks';
@@ -21,40 +22,87 @@ interface Props {
   withSmallSearchBar?: boolean;
 }
 
-const initialPopupState = [
-  {
-    key: 'datePicker',
-    component: <DatePicker disablePreviousDays />,
-    position: { left: 0 },
-  },
-  {
-    key: 'pricePicker',
-    component: <PricePicker />,
-    position: { right: 0 },
-  },
-];
+const useSearchPage = (params) => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  return [
+    params.reduce((acc, param) => {
+      acc[param] = searchParams.get(param);
+      return acc;
+    }, {}),
+    location,
+  ];
+};
+
+const dateUnitToString = (date) => {
+  if (date) {
+    const { year, month, day } = date;
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+};
 
 function Header({ withSmallSearchBar = false }: Props) {
+  const [searchParams, location] = useSearchPage(['in', 'out', 'minimum_money', 'maximum_money']);
+  const rendered = useRef<boolean>(false);
   const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
-
   const bigSearchBarRef = useRef<HTMLDivElement>(null);
   const {
-    pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit }, // NOTE
+    pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit },
   } = useDatePickGetter();
   const resetPickedDates = useDatePickReset();
 
-  const { popupElements, openPopupElement, closeAllPopups } = usePopup(initialPopupState);
+  const initialPopupState = [
+    {
+      key: 'datePicker',
+      component: <DatePicker disablePreviousDays />,
+      position: { left: 0 },
+    },
+    {
+      key: 'pricePicker',
+      component: (
+        <PricePicker
+          checkIn={dateUnitToString(firstPickedDateUnit)}
+          checkOut={dateUnitToString(secondPickedDateUnit)}
+        />
+      ),
+      position: { right: 0 },
+    },
+  ];
 
-  const { minPrice, maxPrice, resetRangeInputPrice, resetPrices } = usePrice();
+  const { popupElements, openPopupElement, closeAllPopups } = usePopup(initialPopupState);
+  const { minPrice, maxPrice, resetRangeInputPrice, resetPrices, setMinPrice, setMaxPrice } =
+    usePrice();
 
   const handleClickSmallSearchBar = () => {
     setIsSmallSearchBarVisible(false);
   };
-
   const resetState = (resetFunc) => (e) => {
     e.stopPropagation();
     resetFunc();
   };
+
+  useEffect(() => {
+    if (Object.values(searchParams).every((value) => value)) {
+      const {
+        in: checkIn,
+        out: checkOut,
+        minimum_money: minimumMoney,
+        maximum_money: maximumMoney,
+      } = searchParams;
+      // 파라미터가 있으면 파라미터로 세팅
+      setMinPrice(Number(minimumMoney) ?? 0);
+      setMaxPrice(Number(maximumMoney) ?? 0);
+    } else {
+      // 파라미터가 없으면 리셋
+      resetPrices();
+      resetPickedDates();
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const listener = (e: MouseEvent) => {
@@ -82,6 +130,10 @@ function Header({ withSmallSearchBar = false }: Props) {
   }, [popupElements]);
 
   useEffect(() => {
+    if (!rendered.current) {
+      rendered.current = true;
+      return;
+    }
     resetPrices();
   }, [firstPickedDateUnit, secondPickedDateUnit]);
 
@@ -123,6 +175,12 @@ function Header({ withSmallSearchBar = false }: Props) {
                 </>
               }
               popup={popupElements.find((element) => element.isOpen)}
+              params={{
+                checkInParam: dateUnitToString(firstPickedDateUnit),
+                checkOutParam: dateUnitToString(secondPickedDateUnit),
+                minPriceParam: minPrice,
+                maxPriceParam: maxPrice || 1_000_000,
+              }}
             />
           </S.BigSearchBarLayout>
         )}

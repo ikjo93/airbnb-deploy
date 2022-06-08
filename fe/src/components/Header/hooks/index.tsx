@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   useInputRangeGetter,
@@ -48,13 +48,14 @@ export const usePopup = (popupInfo) => {
 export const usePrice = () => {
   const accommodationState = useAccommodation();
   const resetAccommodationState = useAccommodationReset();
+
   const { scaleFactor, offset, initialMaxPrice, initialMinPrice } = accommodationState;
 
   const { leftInputValue, rightInputValue } = useInputRangeGetter();
   const setPrices = useInputRangeSetter();
 
-  const minPrice = leftInputValue * scaleFactor + offset;
-  const maxPrice = rightInputValue * scaleFactor + offset;
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
 
   const initialLeftInputValue = useMemo(
     () => (initialMinPrice - offset) / scaleFactor,
@@ -75,5 +76,10 @@ export const usePrice = () => {
     setPrices({ leftInputValue: 0, rightInputValue: 0 });
   };
 
-  return { minPrice, maxPrice, resetRangeInputPrice, resetPrices };
+  useEffect(() => {
+    setMinPrice(leftInputValue * scaleFactor + offset);
+    setMaxPrice(rightInputValue * scaleFactor + offset);
+  }, [leftInputValue, rightInputValue]);
+
+  return { minPrice, maxPrice, resetRangeInputPrice, resetPrices, setMinPrice, setMaxPrice };
 };
