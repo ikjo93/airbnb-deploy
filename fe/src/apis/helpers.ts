@@ -7,8 +7,8 @@ interface Params {
 }
 
 export const fetchData: Get = async (url, params, init) => {
-  const searchParams = params ? new URLSearchParams(params).toString() : '';
-  const response = await fetch(`${url}?${searchParams}`, init);
+  const searchParams = params ? `?${new URLSearchParams(params).toString()}` : '';
+  const response = await fetch(`${url}${searchParams}`, init);
   if (!response.ok) {
     throw Error('Response failed');
   }
