@@ -87,7 +87,7 @@ function Header({ withSmallSearchBar = false }: Props) {
   };
 
   useEffect(() => {
-    if (Object.keys(searchParams).length) {
+    if (Object.values(searchParams).every((value) => value)) {
       const {
         in: checkIn,
         out: checkOut,
