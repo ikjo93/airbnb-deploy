@@ -1,21 +1,16 @@
 import React, { useEffect } from 'react';
 
-import { pricesURL } from '@/apis/accommodation';
+import { getPrices } from '@/apis/accommodation';
 import Chart from '@/components/Chart';
 import { useAccommodationDispatch, useAccommodation, parseAction } from '@/contexts/Accommodation';
-import { useFetch } from '@/hooks/useFetch/useFetch';
+import useAsync from '@/hooks/useAsync';
 
 import * as S from './style';
 
-interface IAccommodation {
-  price: number;
-  count: number;
-}
-
 const prefix = '₩';
-
-function PricePicker() {
-  const { data: accommodationData, isLoading } = useFetch<IAccommodation[]>(pricesURL);
+function PricePicker({ checkIn, checkOut }) {
+  const [state] = useAsync(() => getPrices({ in: checkIn, out: checkOut }), []);
+  const { data: accommodationData, loading: isLoading, error } = state;
 
   const accommodationDispatch = useAccommodationDispatch();
   const {

@@ -22,25 +22,24 @@ interface Props {
   withSmallSearchBar?: boolean;
 }
 
-const initialPopupState = [
-  {
-    key: 'datePicker',
-    component: <DatePicker disablePreviousDays />,
-    position: { left: 0 },
-  },
-  {
-    key: 'pricePicker',
-    component: <PricePicker />,
-    position: { right: 0 },
-  },
-];
-
 const useSearchPage = (params) => {
   const [searchParams] = useSearchParams();
   return params.reduce((acc, param) => {
     acc[param] = searchParams.get(param);
     return acc;
   }, {});
+};
+
+const dateUnitToString = (date) => {
+  if (date) {
+    const { year, month, day } = date;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 };
 
 function Header({ withSmallSearchBar = false }: Props) {
@@ -51,6 +50,25 @@ function Header({ withSmallSearchBar = false }: Props) {
     pickedDateUnits: { firstPickedDateUnit, secondPickedDateUnit },
   } = useDatePickGetter();
   const resetPickedDates = useDatePickReset();
+
+  const initialPopupState = [
+    {
+      key: 'datePicker',
+      component: <DatePicker disablePreviousDays />,
+      position: { left: 0 },
+    },
+    {
+      key: 'pricePicker',
+      component: (
+        <PricePicker
+          checkIn={dateUnitToString(firstPickedDateUnit)}
+          checkOut={dateUnitToString(secondPickedDateUnit)}
+        />
+      ),
+      position: { right: 0 },
+    },
+  ];
+
   const { popupElements, openPopupElement, closeAllPopups } = usePopup(initialPopupState);
   const { minPrice, maxPrice, resetRangeInputPrice, resetPrices, setMinPrice, setMaxPrice } =
     usePrice();
