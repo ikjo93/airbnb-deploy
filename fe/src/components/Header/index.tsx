@@ -15,6 +15,7 @@ import DateButton from '@/components/SearchBar/SmallSearchBar/DateButton';
 import GuestsButton from '@/components/SearchBar/SmallSearchBar/GuestsButton';
 import PriceButton from '@/components/SearchBar/SmallSearchBar/PriceButton';
 import * as Small from '@/components/SearchBar/SmallSearchBar/style';
+import { useGeoLocationGetter } from '@/contexts/GeoLocation';
 
 import * as S from './style';
 
@@ -47,6 +48,7 @@ const dateUnitToString = (date) => {
 };
 
 function Header({ withSmallSearchBar = false }: Props) {
+  const { latitude, longitude } = useGeoLocationGetter();
   const [searchParams, location] = useSearchPage(['in', 'out', 'minimum_money', 'maximum_money']);
   const rendered = useRef<boolean>(false);
   const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
@@ -68,6 +70,8 @@ function Header({ withSmallSearchBar = false }: Props) {
         <PricePicker
           checkIn={dateUnitToString(firstPickedDateUnit)}
           checkOut={dateUnitToString(secondPickedDateUnit)}
+          latitude={latitude}
+          longitude={longitude}
         />
       ),
       position: { right: 0 },
@@ -180,6 +184,8 @@ function Header({ withSmallSearchBar = false }: Props) {
                 checkOutParam: dateUnitToString(secondPickedDateUnit),
                 minPriceParam: minPrice,
                 maxPriceParam: maxPrice || 1_000_000,
+                latitude: String(latitude),
+                longitude: String(longitude),
               }}
             />
           </S.BigSearchBarLayout>

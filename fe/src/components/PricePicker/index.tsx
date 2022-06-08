@@ -8,8 +8,17 @@ import useAsync from '@/hooks/useAsync';
 import * as S from './style';
 
 const prefix = '₩';
-function PricePicker({ checkIn, checkOut }) {
-  const [state] = useAsync(() => getPrices({ in: checkIn, out: checkOut }), []);
+function PricePicker({ checkIn, checkOut, latitude, longitude }) {
+  const [state] = useAsync(
+    () =>
+      getPrices({
+        in: checkIn,
+        out: checkOut,
+        latitude,
+        longitude,
+      }),
+    [],
+  );
   const { data: accommodationData, loading: isLoading, error } = state;
 
   const accommodationDispatch = useAccommodationDispatch();
