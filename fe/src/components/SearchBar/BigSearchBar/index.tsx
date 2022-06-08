@@ -6,8 +6,9 @@ import { SearchButton } from '@/components/buttons/SearchButton';
 import * as S from './style';
 
 const getSearchParams = (params) => {
-  const { checkInParam, checkOutParam, minPriceParam, maxPriceParam, latitude, longitude } = params;
-  return `in=${checkInParam}&out=${checkOutParam}&minimum_money=${minPriceParam}&maximum_money=${maxPriceParam}&latitude=${latitude}&longitude=${longitude}`;
+  return Object.entries(params)
+    .map((arr) => arr.join('='))
+    .join('&');
 };
 
 function BigSearchBar({ buttons, popup, params }: { buttons: any; popup: any }) {
