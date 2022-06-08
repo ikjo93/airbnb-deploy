@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { fetchData } from './helpers';
+import { fetchData } from '../../apis/helpers';
 
 interface Params {
   [key: string]: string;
