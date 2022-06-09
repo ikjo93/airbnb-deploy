@@ -5,8 +5,8 @@ const GeoLocationSetterContext = createContext<React.Dispatch<
   React.SetStateAction<{ latitude: string; longitude: string }>
 > | null>(null);
 
-const defaultLatitude = '37.4856';
-const defaultLongitude = '126.7551';
+const defaultLatitude = '37.566';
+const defaultLongitude = '126.981';
 
 export function GeoLocationProvider({ children }: { children: React.ReactNode }) {
   const [geoLocation, setGeoLocation] = useState({
