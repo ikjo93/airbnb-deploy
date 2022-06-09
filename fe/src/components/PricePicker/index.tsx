@@ -14,7 +14,6 @@ function PricePicker({ dateUnitToString }) {
   const {
     pickedDateUnits: { firstPickedDateUnit: checkIn, secondPickedDateUnit: checkOut },
   } = useDatePickGetter();
-  console.log(checkIn);
   const { latitude, longitude } = useGeoLocationGetter();
 
   const [state] = useAsync(
@@ -27,7 +26,8 @@ function PricePicker({ dateUnitToString }) {
       }),
     [],
   );
-  const { data: accommodationData, loading: isLoading, error } = state;
+
+  const { data, loading: isLoading, error } = state;
 
   const accommodationDispatch = useAccommodationDispatch();
   const {
@@ -40,11 +40,11 @@ function PricePicker({ dateUnitToString }) {
   } = useAccommodation();
 
   useEffect(() => {
-    if (!accommodationData) {
+    if (!data?.accommodationPrices) {
       return;
     }
-    accommodationDispatch(parseAction(accommodationData));
-  }, [accommodationData]);
+    accommodationDispatch(parseAction(data?.accommodationPrices));
+  }, [data?.accommodationPrices]);
 
   return (
     <S.PricePickerLayer>
