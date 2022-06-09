@@ -42,6 +42,17 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+              },
+            },
+          ],
+        },
+        {
           test: /\.(ts|tsx|js|jsx)$/,
           loader: 'babel-loader',
           exclude: /node_modules/,
@@ -55,7 +66,6 @@ module.exports = (env) => {
                   },
                   useBuiltIns: 'usage',
                   corejs: { version: 3, proposals: true },
-                  debug: true,
                 },
               ],
               '@babel/preset-react',

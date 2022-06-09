@@ -15,6 +15,7 @@ import DateButton from '@/components/SearchBar/SmallSearchBar/DateButton';
 import GuestsButton from '@/components/SearchBar/SmallSearchBar/GuestsButton';
 import PriceButton from '@/components/SearchBar/SmallSearchBar/PriceButton';
 import * as Small from '@/components/SearchBar/SmallSearchBar/style';
+import { useGeoLocationGetter } from '@/contexts/GeoLocation';
 
 import * as S from './style';
 
@@ -39,6 +40,7 @@ const dateUnitToString = (date) => {
     const { year, month, day } = date;
     return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   }
+
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -47,6 +49,7 @@ const dateUnitToString = (date) => {
 };
 
 function Header({ withSmallSearchBar = false }: Props) {
+  const { latitude, longitude } = useGeoLocationGetter();
   const [searchParams, location] = useSearchPage(['in', 'out', 'minimum_money', 'maximum_money']);
   const rendered = useRef<boolean>(false);
   const [isSmallSearchBarVisible, setIsSmallSearchBarVisible] = useState(withSmallSearchBar);
@@ -56,7 +59,7 @@ function Header({ withSmallSearchBar = false }: Props) {
   } = useDatePickGetter();
   const resetPickedDates = useDatePickReset();
 
-  const initialPopupState = [
+  const { popupElements, openPopupElement, closeAllPopups } = usePopup([
     {
       key: 'datePicker',
       component: <DatePicker disablePreviousDays />,
@@ -64,17 +67,10 @@ function Header({ withSmallSearchBar = false }: Props) {
     },
     {
       key: 'pricePicker',
-      component: (
-        <PricePicker
-          checkIn={dateUnitToString(firstPickedDateUnit)}
-          checkOut={dateUnitToString(secondPickedDateUnit)}
-        />
-      ),
+      component: <PricePicker dateUnitToString={dateUnitToString} />,
       position: { right: 0 },
     },
-  ];
-
-  const { popupElements, openPopupElement, closeAllPopups } = usePopup(initialPopupState);
+  ]);
   const { minPrice, maxPrice, resetRangeInputPrice, resetPrices, setMinPrice, setMaxPrice } =
     usePrice();
 
@@ -176,10 +172,12 @@ function Header({ withSmallSearchBar = false }: Props) {
               }
               popup={popupElements.find((element) => element.isOpen)}
               params={{
-                checkInParam: dateUnitToString(firstPickedDateUnit),
-                checkOutParam: dateUnitToString(secondPickedDateUnit),
-                minPriceParam: minPrice,
-                maxPriceParam: maxPrice || 1_000_000,
+                in: dateUnitToString(firstPickedDateUnit),
+                out: dateUnitToString(secondPickedDateUnit),
+                minimum_money: minPrice,
+                maximum_money: maxPrice || 1_000_000,
+                latitude: String(latitude),
+                longitude: String(longitude),
               }}
             />
           </S.BigSearchBarLayout>

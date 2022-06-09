@@ -6,7 +6,9 @@ import { ThemeProvider } from 'styled-components';
 import App from '@/App';
 import { InputRangeProvider } from '@/components/MultiRangeSlider/context/InputRange';
 import { AccommodationProvider } from '@/contexts/Accommodation';
+import { GeoLocationProvider } from '@/contexts/GeoLocation';
 import theme from '@/styles/theme';
+
 import '~/assets/style.css';
 
 if (process.env.NODE_ENV === 'development') {
@@ -19,11 +21,13 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
-      <AccommodationProvider>
-        <InputRangeProvider>
-          <App />
-        </InputRangeProvider>
-      </AccommodationProvider>
+      <GeoLocationProvider>
+        <AccommodationProvider>
+          <InputRangeProvider>
+            <App />
+          </InputRangeProvider>
+        </AccommodationProvider>
+      </GeoLocationProvider>
     </BrowserRouter>
   </ThemeProvider>,
 );

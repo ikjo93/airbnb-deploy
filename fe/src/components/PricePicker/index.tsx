@@ -1,15 +1,32 @@
+import { useDatePickGetter } from '@bcad1591/react-date-picker';
 import React, { useEffect } from 'react';
 
 import { getPrices } from '@/apis/accommodation';
 import Chart from '@/components/Chart';
 import { useAccommodationDispatch, useAccommodation, parseAction } from '@/contexts/Accommodation';
+import { useGeoLocationGetter } from '@/contexts/GeoLocation';
 import useAsync from '@/hooks/useAsync';
 
 import * as S from './style';
 
 const prefix = '₩';
-function PricePicker({ checkIn, checkOut }) {
-  const [state] = useAsync(() => getPrices({ in: checkIn, out: checkOut }), []);
+function PricePicker({ dateUnitToString }) {
+  const {
+    pickedDateUnits: { firstPickedDateUnit: checkIn, secondPickedDateUnit: checkOut },
+  } = useDatePickGetter();
+  console.log(checkIn);
+  const { latitude, longitude } = useGeoLocationGetter();
+
+  const [state] = useAsync(
+    () =>
+      getPrices({
+        in: dateUnitToString(checkIn),
+        out: dateUnitToString(checkOut),
+        latitude,
+        longitude,
+      }),
+    [],
+  );
   const { data: accommodationData, loading: isLoading, error } = state;
 
   const accommodationDispatch = useAccommodationDispatch();

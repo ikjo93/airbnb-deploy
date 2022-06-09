@@ -3,7 +3,6 @@ import { useReducer, useEffect, useCallback } from 'react';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_INIT': {
-      console.log('[FETCH_INIT]');
       return {
         loading: true,
         data: null,
@@ -12,7 +11,6 @@ const reducer = (state, action) => {
     }
 
     case 'FETCH_SUCCESS': {
-      console.log('[FETCH_SUCCESS]');
       const { data } = action.payload;
       return {
         ...state,
@@ -22,7 +20,6 @@ const reducer = (state, action) => {
     }
 
     case 'FETCH_FAILURE': {
-      console.log('[FETCH_FAILURE]');
       const { error } = action.payload;
       return {
         ...state,

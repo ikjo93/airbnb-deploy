@@ -1,15 +1,15 @@
 export const getGeoLocation = () => {
-  return new Promise((res, rej) => {
+  return new Promise<GeolocationPosition>((resolve, reject) => {
     if (!navigator.geolocation) {
-      rej('GPS 미지원');
+      reject('GPS 미지원');
     }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        res(position);
+        resolve(position);
       },
       (error) => {
-        rej(error.message);
+        reject(error.message);
       },
       {
         enableHighAccuracy: false,
