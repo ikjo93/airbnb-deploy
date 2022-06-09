@@ -28,12 +28,12 @@ type AccommodationAction =
 type AccommodationDispatch = React.Dispatch<AccommodationAction>;
 
 const initialState: AccommodationState = {
-  scaleFactor: 1_000,
+  scaleFactor: 100,
   accommodationData: [],
   averageNightlyPrice: 0,
   offset: 0,
   canvasWidth: 0,
-  maxCount: 0,
+  maxCount: 100,
   initialMaxPrice: 0,
   initialMinPrice: 0,
   chartData: [],
@@ -61,7 +61,7 @@ const accommodationReducer = (state: AccommodationState, action: AccommodationAc
       const { price: initialMaxPrice } = fetchData[length - 1];
       const offset = initialMinPrice;
 
-      let maxCount = 0;
+      let maxCount = 100;
       const sumOfPrices = fetchData.reduce((acc, { price, count }) => {
         if (maxCount < count) {
           maxCount = count;
