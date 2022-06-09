@@ -8,7 +8,9 @@ export const prices = rest.get(pricesURL, (req, res, ctx) => {
   return res(
     ctx.status(200),
     ctx.delay(1000),
-    ctx.json(accommodationData[Math.floor(Math.random() * accommodationData.length)]),
+    ctx.json({
+      accommodationPrices: accommodationData[Math.floor(Math.random() * accommodationData.length)],
+    }),
   );
 });
 
